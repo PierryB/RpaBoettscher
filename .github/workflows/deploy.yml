@@ -24,6 +24,13 @@ jobs:
     - name: Build project
       run: dotnet build TesteLambda/TesteLambda/TesteLambda.csproj --configuration Release
 
+    - name: Install Lambda Tools
+      run: dotnet tool install -g Amazon.Lambda.Tools
+
+    - name: Add Lambda Tools to PATH
+      shell: bash
+      run: echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
+
     - name: Package Lambda
       run: dotnet lambda package TesteLambda/TesteLambda/TesteLambda.csproj --configuration Release --output-package ./package.zip
 
