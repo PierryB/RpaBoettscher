@@ -42,4 +42,4 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_REGION: 'sa-east-1'
       run: |
-        aws lambda update-function-code --function-name my-lambda-function --zip-file fileb://package.zip
+        aws lambda update-function-code --function-name executarRpaBoleto --zip-file fileb://package.zip
