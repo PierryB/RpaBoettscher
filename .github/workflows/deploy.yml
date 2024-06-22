@@ -19,13 +19,13 @@ jobs:
         dotnet-version: '8.0'
 
     - name: Install dependencies
-      run: dotnet restore
+      run: dotnet restore TesteLambda/TesteLambda/TesteLambda.csproj
 
     - name: Build project
-      run: dotnet build --configuration Release
+      run: dotnet build TesteLambda/TesteLambda/TesteLambda.csproj --configuration Release
 
     - name: Package Lambda
-      run: dotnet lambda package --configuration Release --output-package ./package.zip
+      run: dotnet lambda package TesteLambda/TesteLambda/TesteLambda.csproj --configuration Release --output-package ./package.zip
 
     - name: Deploy to AWS Lambda
       env:
