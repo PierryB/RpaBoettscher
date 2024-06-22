@@ -8,12 +8,12 @@ namespace TesteLambda
 {
     public class LambdaHandler
     {
-        public static APIGatewayProxyResponse HandleRequest()
+        public APIGatewayProxyResponse HandleRequest()
         {
             return new APIGatewayProxyResponse
             {
                 StatusCode = 200,
-                Body = "Teste deu certo 2!"
+                Body = "Teste deu certo 3!"
             };
         }
     }

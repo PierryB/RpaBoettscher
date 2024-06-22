@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "C:\\temp\\ProjetosVS\\TesteLambda\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{181CDDD7-F8C6-433A-A7FB-2A3DB108133F}|TesteLambda.Tests\\TesteLambda.Tests.csproj|c:\\temp\\projetosvs\\testelambda\\testelambda.tests\\lambdahandlertests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{181CDDD7-F8C6-433A-A7FB-2A3DB108133F}|TesteLambda.Tests\\TesteLambda.Tests.csproj|solutionrelative:testelambda.tests\\lambdahandlertests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{05F05A01-DA80-4A11-AC28-60E54F0BA44B}|TesteLambda\\TesteLambda.csproj|c:\\temp\\projetosvs\\testelambda\\testelambda\\testelambda.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{05F05A01-DA80-4A11-AC28-60E54F0BA44B}|TesteLambda\\TesteLambda.csproj|solutionrelative:testelambda\\testelambda.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
@@ -19,12 +23,25 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "LambdaHandlerTests.cs",
+              "DocumentMoniker": "C:\\temp\\ProjetosVS\\TesteLambda\\TesteLambda.Tests\\LambdaHandlerTests.cs",
+              "RelativeDocumentMoniker": "TesteLambda.Tests\\LambdaHandlerTests.cs",
+              "ToolTip": "C:\\temp\\ProjetosVS\\TesteLambda\\TesteLambda.Tests\\LambdaHandlerTests.cs",
+              "RelativeToolTip": "TesteLambda.Tests\\LambdaHandlerTests.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABAAAAAzAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-22T18:58:52.977Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "TesteLambda.cs",
               "DocumentMoniker": "C:\\temp\\ProjetosVS\\TesteLambda\\TesteLambda\\TesteLambda.cs",
               "RelativeDocumentMoniker": "TesteLambda\\TesteLambda.cs",
               "ToolTip": "C:\\temp\\ProjetosVS\\TesteLambda\\TesteLambda\\TesteLambda.cs",
               "RelativeToolTip": "TesteLambda\\TesteLambda.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAArAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAOAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-06-22T17:27:41.103Z",
               "EditorCaption": ""

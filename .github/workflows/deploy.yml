@@ -23,6 +23,12 @@ jobs:
 
     - name: Build project
       run: dotnet build TesteLambda/TesteLambda/TesteLambda.csproj --configuration Release
+    
+    - name: Build tests
+      run: dotnet build TesteLambda/TesteLambda.Tests/TesteLambda.Tests.csproj --configuration Release
+
+    - name: Run tests
+      run: dotnet test TesteLambda/TesteLambda.Tests/TesteLambda.Tests.csproj --configuration Release
 
     - name: Install Lambda Tools
       run: dotnet tool install -g Amazon.Lambda.Tools
