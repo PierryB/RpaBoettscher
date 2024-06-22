@@ -31,8 +31,11 @@ jobs:
       shell: bash
       run: echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
 
+    - name: Change directory to project
+      run: cd TesteLambda/TesteLambda
+
     - name: Package Lambda
-      run: dotnet lambda package TesteLambda/TesteLambda/TesteLambda.csproj --configuration Release --output-package ./package.zip
+      run: dotnet lambda package --configuration Release --output-package ../../package.zip
 
     - name: Deploy to AWS Lambda
       env:
