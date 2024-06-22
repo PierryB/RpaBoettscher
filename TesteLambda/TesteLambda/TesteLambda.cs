@@ -13,7 +13,7 @@ namespace TesteLambda
             return new APIGatewayProxyResponse
             {
                 StatusCode = 200,
-                Body = "Teste deu certo!"
+                Body = "Teste deu certo 2!"
             };
         }
     }
