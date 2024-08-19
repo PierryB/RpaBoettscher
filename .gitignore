@@ -1,0 +1,9 @@
+# Ignorar arquivos temporários do Visual Studio
+*.vsidx
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Ignorar pastas do Visual Studio
+.vs/
