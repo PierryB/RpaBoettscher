@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DownloadPdfCatolica")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+be579c0cf35d116f8c5476c147276142a4267ff7")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+934d4c1a314474fde0401a942b3f43e940f72c61")]
 [assembly: System.Reflection.AssemblyProductAttribute("DownloadPdfCatolica")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DownloadPdfCatolica")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
