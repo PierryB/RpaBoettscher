@@ -27,7 +27,7 @@ namespace DownloadPdfCatolica
             var options = new LaunchOptions
             {
                 Headless = true,
-                ExecutablePath = "/opt/chrome/chrome", // Caminho para o executável do Chromium fornecido pela camada
+                ExecutablePath = "/opt/chromium/chrome", // Caminho para o executável do Chromium fornecido pela camada
                 Args = ["--no-sandbox", "--disable-dev-shm-usage"]
             };
 
