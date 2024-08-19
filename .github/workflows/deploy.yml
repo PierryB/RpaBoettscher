@@ -3,7 +3,7 @@ name: Deploy to AWS Lambda
 on:
   push:
     branches:
-      - main
+      - DownloadPdfCatolica
 
 jobs:
   deploy:
@@ -19,16 +19,16 @@ jobs:
         dotnet-version: '8.0'
 
     - name: Install dependencies
-      run: dotnet restore TesteLambda/TesteLambda/TesteLambda.csproj
+      run: dotnet restore DownloadPdfCatolica/DownloadPdfCatolica/DownloadPdfCatolica.csproj
 
     - name: Build project
-      run: dotnet build TesteLambda/TesteLambda/TesteLambda.csproj --configuration Release
+      run: dotnet build DownloadPdfCatolica/DownloadPdfCatolica/DownloadPdfCatolica.csproj --configuration Release
     
     - name: Build tests
-      run: dotnet build TesteLambda/TesteLambda.Tests/TesteLambda.Tests.csproj --configuration Release
+      run: dotnet build DownloadPdfCatolica/DownloadPdfCatolica/DownloadPdfCatolica.csproj --configuration Release
 
     - name: Run tests
-      run: dotnet test TesteLambda/TesteLambda.Tests/TesteLambda.Tests.csproj --configuration Release
+      run: dotnet test DownloadPdfCatolica/DownloadPdfCatolica/DownloadPdfCatolica.csproj --configuration Release
 
     - name: Install Lambda Tools
       run: dotnet tool install -g Amazon.Lambda.Tools
@@ -39,7 +39,7 @@ jobs:
 
     - name: Package Lambda
       run: |
-        cd TesteLambda/TesteLambda
+        cd DownloadPdfCatolica/DownloadPdfCatolica
         dotnet lambda package --configuration Release --output-package ../../package.zip
 
     - name: Deploy to AWS Lambda
