@@ -28,7 +28,7 @@ namespace DownloadPdfCatolica
             {
                 Headless = true,
                 ExecutablePath = "/opt/chrome/chrome",  // Caminho correto para o executável Chromium
-                Args = new[] { "--no-sandbox", "--disable-dev-shm-usage" }
+                Args = ["--no-sandbox", "--disable-dev-shm-usage"]
             };
 
             using var browser = await Puppeteer.LaunchAsync(options);
