@@ -12,18 +12,20 @@ namespace DownloadPdfCatolica
     {
         public static async Task<APIGatewayProxyResponse> HandleRequest()
         {
-            string pdfBase64 = await DownloadPdfCatolica();
+            string[] files = Directory.GetFiles("/opt", "*", SearchOption.AllDirectories);
+            string fileList = string.Join("\n", files);
+
+            //string pdfBase64 = await DownloadPdfCatolica();
 
             return new APIGatewayProxyResponse
             {
                 StatusCode = 200,
-                Body = pdfBase64
+                Body = fileList
             };
         }
 
         private static async Task<string> DownloadPdfCatolica()
         {
-            return "teste";
             // Configuração do Puppeteer para usar o Chromium da camada
             var options = new LaunchOptions
             {
