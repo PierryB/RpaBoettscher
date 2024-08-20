@@ -17,7 +17,7 @@ namespace DownloadPdfCatolica
             return new APIGatewayProxyResponse
             {
                 StatusCode = 200,
-                Body = "Teste deu certo!"
+                Body = pdfBase64
             };
         }
 
