@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - DownloadPdfCatolica
+      - Teste
 
 jobs:
   deploy:
