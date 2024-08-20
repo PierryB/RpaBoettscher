@@ -23,6 +23,7 @@ namespace DownloadPdfCatolica
 
         private static async Task<string> DownloadPdfCatolica()
         {
+            return "teste";
             // Configuração do Puppeteer para usar o Chromium da camada
             var options = new LaunchOptions
             {
