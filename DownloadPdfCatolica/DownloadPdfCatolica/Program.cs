@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using PuppeteerSharp;
 using System.IO;
 using System.Diagnostics;
+using System.IO.Compression;
 
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.Json.JsonSerializer))]
 
@@ -29,11 +30,19 @@ namespace DownloadPdfCatolica
         {
             // Caminho para o arquivo compactado do Chromium
             string brotliFile = "/opt/nodejs/node_modules/@sparticuz/chromium/bin/al2.tar.br"; // ou al2023.tar.br
+            string tarFile = "/tmp/chromium.tar";
             string outputDir = "/tmp/chromium"; // Diretório de extração
 
-            // Descompactar usando brotli e tar
-            Process.Start("brotli", $"-d {brotliFile} -o /tmp/chromium.tar").WaitForExit();
-            Process.Start("tar", $"-xf /tmp/chromium.tar -C {outputDir}").WaitForExit();
+            // Descompactar o arquivo .br usando BrotliStream
+            using (var brotliStream = new BrotliStream(File.OpenRead(brotliFile), CompressionMode.Decompress))
+            using (var fileStream = File.Create(tarFile))
+            {
+                await brotliStream.CopyToAsync(fileStream);
+            }
+
+            // Extrair o arquivo .tar
+            Directory.CreateDirectory(outputDir);
+            System.Diagnostics.Process.Start("tar", $"-xf {tarFile} -C {outputDir}").WaitForExit();
 
             // Caminho para o executável do Chromium após descompactação
             string chromePath = Path.Combine(outputDir, "chrome");
