@@ -1,8 +1,0 @@
-C:\temp\ProjetosVS\TesteLambda\TesteLambda\bin\Release\net8.0\publish\TesteLambda.dll
-C:\temp\ProjetosVS\TesteLambda\TesteLambda\bin\Release\net8.0\publish\TesteLambda.deps.json
-C:\temp\ProjetosVS\TesteLambda\TesteLambda\bin\Release\net8.0\publish\TesteLambda.runtimeconfig.json
-C:\temp\ProjetosVS\TesteLambda\TesteLambda\bin\Release\net8.0\publish\TesteLambda.pdb
-C:\temp\ProjetosVS\TesteLambda\TesteLambda\bin\Release\net8.0\publish\Amazon.Lambda.APIGatewayEvents.dll
-C:\temp\ProjetosVS\TesteLambda\TesteLambda\bin\Release\net8.0\publish\Amazon.Lambda.Core.dll
-C:\temp\ProjetosVS\TesteLambda\TesteLambda\bin\Release\net8.0\publish\Amazon.Lambda.Serialization.Json.dll
-C:\temp\ProjetosVS\TesteLambda\TesteLambda\bin\Release\net8.0\publish\Newtonsoft.Json.dll
