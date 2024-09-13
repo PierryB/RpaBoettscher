@@ -7,3 +7,4 @@
 
 # Ignorar pastas do Visual Studio
 .vs/
+.local-chromium/

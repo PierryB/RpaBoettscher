@@ -1,0 +1,12 @@
+C:\GitHub\DownloadPdfCatolica\FaturaPdfCatolica\Application\bin\Debug\net8.0\Application.deps.json
+C:\GitHub\DownloadPdfCatolica\FaturaPdfCatolica\Application\bin\Debug\net8.0\Application.dll
+C:\GitHub\DownloadPdfCatolica\FaturaPdfCatolica\Application\bin\Debug\net8.0\Application.pdb
+C:\GitHub\DownloadPdfCatolica\FaturaPdfCatolica\Application\obj\Debug\net8.0\Application.csproj.AssemblyReference.cache
+C:\GitHub\DownloadPdfCatolica\FaturaPdfCatolica\Application\obj\Debug\net8.0\Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\GitHub\DownloadPdfCatolica\FaturaPdfCatolica\Application\obj\Debug\net8.0\Application.AssemblyInfoInputs.cache
+C:\GitHub\DownloadPdfCatolica\FaturaPdfCatolica\Application\obj\Debug\net8.0\Application.AssemblyInfo.cs
+C:\GitHub\DownloadPdfCatolica\FaturaPdfCatolica\Application\obj\Debug\net8.0\Application.csproj.CoreCompileInputs.cache
+C:\GitHub\DownloadPdfCatolica\FaturaPdfCatolica\Application\obj\Debug\net8.0\Application.dll
+C:\GitHub\DownloadPdfCatolica\FaturaPdfCatolica\Application\obj\Debug\net8.0\refint\Application.dll
+C:\GitHub\DownloadPdfCatolica\FaturaPdfCatolica\Application\obj\Debug\net8.0\Application.pdb
+C:\GitHub\DownloadPdfCatolica\FaturaPdfCatolica\Application\obj\Debug\net8.0\ref\Application.dll
