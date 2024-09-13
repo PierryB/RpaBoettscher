@@ -29,10 +29,11 @@ O projeto utiliza um servidor EC2 para executar os RPA's. A comunicação entre 
 
 ## Próximos Passos
 
-1) Desenvolvimento dos Scripts RPA
-2) Implementação da Interface Web e API
-3) Integração e teste com o servidor EC2
-4) Documentação completa e deploy final
+1) Desenvolvimento do RPA de Faturas PDF Católica ✅
+2) Desenvolvimento do RPA de Histórica da Tabela Fipe ❌
+3) Implementação da Interface Web e API ⏳
+4) Integração e teste com o servidor EC2
+5) Documentação completa e deploy final
 
 ## Referências
 
