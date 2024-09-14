@@ -16,12 +16,12 @@ Desenvolver uma solução RPA customizada que permita aos usuários gerar relat�
 
 ## Stack Tecnológica
 - Linguagens: JavaScript, C#
-- Front-end: React.js / Angular
-- Back-end: Node.js / Express
+- Front-end: React.js / Next.js
+- Back-end: Node.js
 - Automação: Servidor EC2, Puppeteer
 - CI/CD: GitHub Actions
 - Armazenamento: AWS S3
-- Segurança: Auth0 para autenticação, AWS IAM, HTTPS, AWS KMS
+- Segurança: Auth0 para autenticação, AWS IAM, HTTPS
 
 ## Arquitetura
 
@@ -37,11 +37,9 @@ O projeto utiliza um servidor EC2 para executar os RPA's. A comunicação entre 
 
 ## Referências
 
-- React.js
-- Angular
-- Node.js
-- Express
-- Puppeteer
-- GitHub
-- AWS EC2
-- Auth0
+- React.js - https://react.dev/
+- Node.js - https://nodejs.org/
+- Puppeteer - https://pptr.dev/
+- GitHub - https://github.com/
+- AWS EC2 - https://aws.amazon.com/ec2/
+- Auth0 - https://auth0.com/
