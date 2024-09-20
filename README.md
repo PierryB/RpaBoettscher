@@ -43,3 +43,6 @@ O projeto utiliza um servidor EC2 para executar os RPA's. A comunicação entre 
 - GitHub - https://github.com/
 - AWS EC2 - https://aws.amazon.com/ec2/
 - Auth0 - https://auth0.com/
+
+## Repositório Front
+- https://github.com/PierryB/SiteRpa
