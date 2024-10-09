@@ -3,7 +3,7 @@ using PuppeteerExtraSharp;
 using PuppeteerExtraSharp.Plugins.ExtraStealth;
 using PuppeteerSharp;
 
-string diretorioTemp = $@"C:\temp\PdfCatolica";
+string diretorioTemp = $@"C:\temp\PdfCatolica\{Guid.NewGuid()}";
 
 if (Directory.Exists(diretorioTemp))
 {
@@ -39,8 +39,8 @@ try
     usuarioCatolica = args[0];
     senhaCatolica = args[1];
 #else
-    usuarioCatolica = "pierry.boettscher";
-    senhaCatolica = "Romipisa401080";
+    usuarioCatolica = "teste";
+    senhaCatolica = "teste";
 #endif
     log.WriteLine("Execução iniciada!");
     log.WriteLine("------------------------------------------------------------");
@@ -58,11 +58,11 @@ try
 catch (Exception ex)
 {
     log.WriteLine(ex.Message);
+    Console.Clear();
+    Console.WriteLine(ex.Message);
 }
 finally
 {
-    log.WriteLine("------------------------------------------------------------");
-    log.WriteLine("Execução finalizada!");
     log.Dispose();
     await browser.CloseAsync();
 }
