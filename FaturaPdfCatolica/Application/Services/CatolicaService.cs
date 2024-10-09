@@ -51,15 +51,33 @@ namespace Application.Services
                 throw new Exception("Erro ao abrir o site da Católica SC.");
             }
             log.WriteLine("Abriu o site da Católica SC com sucesso.");
+            await page.DeleteCookieAsync();
+            await page.SetCacheEnabledAsync(false);
 
             await page.TypeAsync("#User", UsuarioCatolica);
             await page.TypeAsync("#Pass", SenhaCatolica);
 
             await page.ClickAsync("body > div.container > div.login-box.animated.fadeInDown > form > div:nth-child(4) > input[type=submit]");
 
+            Thread.Sleep(10000);
+            int countErroLogin = 0;
             try
             {
-                await page.WaitForSelectorAsync("#edu-widget > span > div.widgetPageContent.page-content.ng-scope > div > div:nth-child(1)", new WaitForSelectorOptions { Timeout = 120000 });
+                var erroLogin = await page.XPathAsync("/html/body/table/tbody/tr/td/table/tbody/tr[2]/td[2]/table/tbody/tr[1]/td/table/tbody/tr/td[2]/div/table/tbody/tr/td/span");
+                countErroLogin = erroLogin.Length;
+            }
+            catch{}
+
+            if (countErroLogin > 0)
+            {
+                Console.WriteLine("Usuário ou Senha inválidos!");
+                throw new Exception("Usuário ou Senha inválidos!");
+            }
+
+            Thread.Sleep(15000);
+            try
+            {
+                await page.WaitForSelectorAsync("#edu-widget > span > div.widgetPageContent.page-content.ng-scope > div > div:nth-child(1)", new WaitForSelectorOptions { Timeout = 5000 });
             }
             catch (Exception ex)
             {
