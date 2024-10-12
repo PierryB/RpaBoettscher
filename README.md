@@ -46,3 +46,5 @@ O projeto utiliza um servidor EC2 para executar os RPA's. A comunicação entre 
 
 ## Repositório Front
 - https://github.com/PierryB/SiteRpa
+## Repositório API
+- https://github.com/PierryB/ApiRpa
