@@ -54,6 +54,10 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "Castle.Core": {
+              "target": "Package",
+              "version": "[5.1.1, )"
+            },
             "InputSimulator": {
               "target": "Package",
               "version": "[1.0.4, )"
@@ -164,6 +168,10 @@
             "PuppeteerExtraSharp": {
               "target": "Package",
               "version": "[2.0.0, )"
+            },
+            "iTextSharp": {
+              "target": "Package",
+              "version": "[5.5.13.4, )"
             },
             "xunit": {
               "target": "Package",

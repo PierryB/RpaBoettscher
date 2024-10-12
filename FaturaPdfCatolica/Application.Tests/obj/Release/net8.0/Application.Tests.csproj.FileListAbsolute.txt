@@ -1,8 +1,3 @@
-C:\GitHub\DownloadPdfCatolica\FaturaPdfCatolica\Application.Tests\obj\Release\net8.0\Application.Tests.csproj.AssemblyReference.cache
-C:\GitHub\DownloadPdfCatolica\FaturaPdfCatolica\Application.Tests\obj\Release\net8.0\Application.Tests.GeneratedMSBuildEditorConfig.editorconfig
-C:\GitHub\DownloadPdfCatolica\FaturaPdfCatolica\Application.Tests\obj\Release\net8.0\Application.Tests.AssemblyInfoInputs.cache
-C:\GitHub\DownloadPdfCatolica\FaturaPdfCatolica\Application.Tests\obj\Release\net8.0\Application.Tests.AssemblyInfo.cs
-C:\GitHub\DownloadPdfCatolica\FaturaPdfCatolica\Application.Tests\obj\Release\net8.0\Application.Tests.csproj.CoreCompileInputs.cache
 C:\GitHub\DownloadPdfCatolica\FaturaPdfCatolica\Application.Tests\bin\Release\net8.0\.msCoverageSourceRootsMapping_Application.Tests
 C:\GitHub\DownloadPdfCatolica\FaturaPdfCatolica\Application.Tests\bin\Release\net8.0\CoverletSourceRootsMapping_Application.Tests
 C:\GitHub\DownloadPdfCatolica\FaturaPdfCatolica\Application.Tests\bin\Release\net8.0\testhost.dll
@@ -112,9 +107,16 @@ C:\GitHub\DownloadPdfCatolica\FaturaPdfCatolica\Application.Tests\bin\Release\ne
 C:\GitHub\DownloadPdfCatolica\FaturaPdfCatolica\Application.Tests\bin\Release\net8.0\runtimes\win\lib\net6.0\System.Diagnostics.EventLog.dll
 C:\GitHub\DownloadPdfCatolica\FaturaPdfCatolica\Application.Tests\bin\Release\net8.0\Application.dll
 C:\GitHub\DownloadPdfCatolica\FaturaPdfCatolica\Application.Tests\bin\Release\net8.0\Application.pdb
+C:\GitHub\DownloadPdfCatolica\FaturaPdfCatolica\Application.Tests\obj\Release\net8.0\Application.Tests.csproj.AssemblyReference.cache
+C:\GitHub\DownloadPdfCatolica\FaturaPdfCatolica\Application.Tests\obj\Release\net8.0\Application.Tests.GeneratedMSBuildEditorConfig.editorconfig
+C:\GitHub\DownloadPdfCatolica\FaturaPdfCatolica\Application.Tests\obj\Release\net8.0\Application.Tests.AssemblyInfoInputs.cache
+C:\GitHub\DownloadPdfCatolica\FaturaPdfCatolica\Application.Tests\obj\Release\net8.0\Application.Tests.AssemblyInfo.cs
+C:\GitHub\DownloadPdfCatolica\FaturaPdfCatolica\Application.Tests\obj\Release\net8.0\Application.Tests.csproj.CoreCompileInputs.cache
 C:\GitHub\DownloadPdfCatolica\FaturaPdfCatolica\Application.Tests\obj\Release\net8.0\Applicat.7AAE1402.Up2Date
 C:\GitHub\DownloadPdfCatolica\FaturaPdfCatolica\Application.Tests\obj\Release\net8.0\Application.Tests.dll
 C:\GitHub\DownloadPdfCatolica\FaturaPdfCatolica\Application.Tests\obj\Release\net8.0\refint\Application.Tests.dll
 C:\GitHub\DownloadPdfCatolica\FaturaPdfCatolica\Application.Tests\obj\Release\net8.0\Application.Tests.pdb
 C:\GitHub\DownloadPdfCatolica\FaturaPdfCatolica\Application.Tests\obj\Release\net8.0\Application.Tests.genruntimeconfig.cache
 C:\GitHub\DownloadPdfCatolica\FaturaPdfCatolica\Application.Tests\obj\Release\net8.0\ref\Application.Tests.dll
+C:\GitHub\DownloadPdfCatolica\FaturaPdfCatolica\Application.Tests\bin\Release\net8.0\BouncyCastle.Cryptography.dll
+C:\GitHub\DownloadPdfCatolica\FaturaPdfCatolica\Application.Tests\bin\Release\net8.0\itextsharp.dll

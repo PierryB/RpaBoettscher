@@ -34,7 +34,6 @@ await page.SetViewportAsync(new ViewPortOptions()
 
 try
 {
-    // PARÂMETROS
 #if RELEASE
     usuarioCatolica = args[0];
     senhaCatolica = args[1];
@@ -44,21 +43,19 @@ try
 #endif
     log.WriteLine("Execução iniciada!");
     log.WriteLine("------------------------------------------------------------");
-    if (String.IsNullOrEmpty(usuarioCatolica))
-    {
-        throw new Exception("O parâmetro 'usuarioCatolica' está vazio");
-    }
-    else if (String.IsNullOrEmpty(senhaCatolica))
-    {
-        throw new Exception("O parâmetro 'senhaCatolica' está vazio");
-    }
+
+    /*string pdf = @"C:\temp\declinacoes.pdf";
+    byte[] pdfBytesTeste = new GeracaoPdfService().GerarPDF(pdf);
+    Console.WriteLine("teste");
+    Console.WriteLine("teste");
+    Console.WriteLine("teste");
+    Console.OpenStandardOutput().Write(pdfBytesTeste, 0, pdfBytesTeste.Length);*/
 
     await new CatolicaService(log, usuarioCatolica, senhaCatolica, browser, diretorioTemp).SiteCatolica(page);
 }
 catch (Exception ex)
 {
     log.WriteLine(ex.Message);
-    Console.Clear();
     Console.WriteLine(ex.Message);
 }
 finally
