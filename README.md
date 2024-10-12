@@ -17,27 +17,27 @@ Desenvolver uma solução RPA customizada que permita aos usuários gerar relat�
 ## Stack Tecnológica
 - Linguagens: JavaScript, C#
 - Front-end: React.js / Next.js
-- Back-end: Node.js
-- Automação: Servidor EC2, Puppeteer
-- CI/CD: GitHub Actions
-- Armazenamento: AWS S3
+- Back-end: Node.js / C#
+- Automação: Puppeteer
+- CI/CD: GitHub Actions / Vercel
 - Segurança: Auth0 para autenticação, AWS IAM, HTTPS
 
 ## Arquitetura
 
-O projeto utiliza um servidor EC2 para executar os RPA's. A comunicação entre a interface web e os RPA's é realizada via API RESTful. A autenticação é gerenciada pelo Auth0. Os resultados são disponibilizados para o usuário através da interface web, após o processamento no back-end.
+O projeto utiliza uma máquina local para executar os RPA's. A comunicação entre a interface web e os RPA's é realizada via API RESTful. A autenticação é gerenciada pelo Auth0. Os resultados são disponibilizados para o usuário através da interface web, após o processamento no back-end.
 
 ## Próximos Passos
 
 1) Desenvolvimento do RPA de Faturas PDF Católica ✅
 2) Desenvolvimento do RPA de Histórica da Tabela Fipe ❌
 3) Implementação da Interface Web e API ⏳
-4) Integração e teste com o servidor EC2
+4) Integração e teste com API e Ngrok
 5) Documentação completa e deploy final
 
 ## Referências
 
 - React.js - https://react.dev/
+- Next.js - https://nextjs.org/
 - Node.js - https://nodejs.org/
 - Puppeteer - https://pptr.dev/
 - GitHub - https://github.com/
