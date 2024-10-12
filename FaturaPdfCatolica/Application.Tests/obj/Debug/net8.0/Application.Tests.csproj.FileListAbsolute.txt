@@ -118,3 +118,5 @@ C:\GitHub\DownloadPdfCatolica\FaturaPdfCatolica\Application.Tests\obj\Debug\net8
 C:\GitHub\DownloadPdfCatolica\FaturaPdfCatolica\Application.Tests\obj\Debug\net8.0\Application.Tests.pdb
 C:\GitHub\DownloadPdfCatolica\FaturaPdfCatolica\Application.Tests\obj\Debug\net8.0\Application.Tests.genruntimeconfig.cache
 C:\GitHub\DownloadPdfCatolica\FaturaPdfCatolica\Application.Tests\obj\Debug\net8.0\ref\Application.Tests.dll
+C:\GitHub\DownloadPdfCatolica\FaturaPdfCatolica\Application.Tests\bin\Debug\net8.0\BouncyCastle.Cryptography.dll
+C:\GitHub\DownloadPdfCatolica\FaturaPdfCatolica\Application.Tests\bin\Debug\net8.0\itextsharp.dll
