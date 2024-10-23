@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\GitHub\\DownloadPdfCatolica\\FaturaPdfCatolica\\Application\\Application.csproj": {}
+    "C:\\GitHub\\RpaBoettscher\\FaturaPdfCatolica\\Application\\Application.csproj": {}
   },
   "projects": {
-    "C:\\GitHub\\DownloadPdfCatolica\\FaturaPdfCatolica\\Application\\Application.csproj": {
+    "C:\\GitHub\\RpaBoettscher\\FaturaPdfCatolica\\Application\\Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\GitHub\\DownloadPdfCatolica\\FaturaPdfCatolica\\Application\\Application.csproj",
+        "projectUniqueName": "C:\\GitHub\\RpaBoettscher\\FaturaPdfCatolica\\Application\\Application.csproj",
         "projectName": "Application",
-        "projectPath": "C:\\GitHub\\DownloadPdfCatolica\\FaturaPdfCatolica\\Application\\Application.csproj",
+        "projectPath": "C:\\GitHub\\RpaBoettscher\\FaturaPdfCatolica\\Application\\Application.csproj",
         "packagesPath": "C:\\Users\\PierryB\\.nuget\\packages\\",
-        "outputPath": "C:\\GitHub\\DownloadPdfCatolica\\FaturaPdfCatolica\\Application\\obj\\",
+        "outputPath": "C:\\GitHub\\RpaBoettscher\\FaturaPdfCatolica\\Application\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

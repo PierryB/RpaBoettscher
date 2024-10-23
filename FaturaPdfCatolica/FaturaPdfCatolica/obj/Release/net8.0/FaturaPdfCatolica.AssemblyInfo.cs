@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("FaturaPdfCatolica")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d7f6eeebf848c027ce495eaedd61bc19577860f8")]
 [assembly: System.Reflection.AssemblyProductAttribute("FaturaPdfCatolica")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FaturaPdfCatolica")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

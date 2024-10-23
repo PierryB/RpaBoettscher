@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "rQPoSXpcpan8Tj31Xmv4vKeXX5Bjc+bzmtdWzK+Dorj+GbAOqnWY63OGk90mYxFTI8Ei7qHarGNlpSti/SBjIg==",
+  "dgSpecHash": "itZVi4NG6Hxd659ijBpXVXMawVHO1eDD+aZTKsHJnmfmqettY36meFfaE5rLOG1+4Gc6w7hfPJF0Bk1ckI5HkA==",
   "success": true,
-  "projectFilePath": "C:\\GitHub\\DownloadPdfCatolica\\FaturaPdfCatolica\\FaturaPdfCatolica\\FaturaPdfCatolica.csproj",
+  "projectFilePath": "C:\\GitHub\\RpaBoettscher\\FaturaPdfCatolica\\FaturaPdfCatolica\\FaturaPdfCatolica.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\PierryB\\.nuget\\packages\\bouncycastle.cryptography\\2.4.0\\bouncycastle.cryptography.2.4.0.nupkg.sha512",
     "C:\\Users\\PierryB\\.nuget\\packages\\castle.core\\5.1.1\\castle.core.5.1.1.nupkg.sha512",
