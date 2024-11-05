@@ -1,37 +1,7 @@
-# Ignorar arquivos temporários do Visual Studio
 *.vsidx
 *.user
 *.suo
 *.userosscache
 *.sln.docstates
-
-# Ignorar pastas do Visual Studio
 .vs/
 .local-chromium/
-
-/node_modules
-/.pnp
-.pnp.js
-.yarn/install-state.gz
-
-/coverage
-
-/.next/
-/out/
-
-/build
-
-.DS_Store
-*.pem
-
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-.env
-.env*.local
-
-.vercel
-
-*.tsbuildinfo
-next-env.d.ts
