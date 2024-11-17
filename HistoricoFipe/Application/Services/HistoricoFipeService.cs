@@ -238,14 +238,14 @@ public class HistoricoFipeService (StreamWriter logFile, StreamWriter csvFile, s
                     }
                     catch
                     {
-                        bool alertaVisivel = await page.EvaluateFunctionAsync<bool>(@"
+                        bool isAlertaVisivel = await page.EvaluateFunctionAsync<bool>(@"
                             () => {
                                 const alerta = document.querySelector('#mm-0 > div.modal.alert');
                                 return alerta && getComputedStyle(alerta).display !== 'none';
                             }
                         ");
 
-                        if (alertaVisivel)
+                        if (isAlertaVisivel)
                         {
                             await page.ClickAsync("#mm-0 > div.modal.alert > div.btnClose");
                             Thread.Sleep(10000);
@@ -283,7 +283,7 @@ public class HistoricoFipeService (StreamWriter logFile, StreamWriter csvFile, s
                     Thread.Sleep(2000);
                 }
                 await page.ClickAsync("#buttonLimparPesquisarcarro > a");
-                Thread.Sleep(5000);
+                Thread.Sleep(3000);
             }
         }
     }
