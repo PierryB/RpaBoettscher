@@ -3,17 +3,28 @@ using PuppeteerExtraSharp;
 using PuppeteerExtraSharp.Plugins.ExtraStealth;
 using PuppeteerSharp;
 
-string diretorioTemp = $@"C:\temp\PdfCatolica\{Guid.NewGuid()}";
-
-if (Directory.Exists(diretorioTemp))
-{
-    Directory.Delete(diretorioTemp, true);
-}
-Directory.CreateDirectory(diretorioTemp);
-
-StreamWriter log = new(diretorioTemp + @"\logCatolica.txt");
 string usuarioCatolica = string.Empty;
 string senhaCatolica = string.Empty;
+string pastaTemp = string.Empty;
+
+#if RELEASE
+    usuarioCatolica = args[0];
+    senhaCatolica = args[1];
+    pastaTemp = args[2];
+#else
+    usuarioCatolica = "teste";
+    senhaCatolica = "teste";
+    pastaTemp = $@"C:\temp\PdfCatolica\{Guid.NewGuid()}";
+#endif
+
+if (Directory.Exists(pastaTemp))
+{
+    Directory.Delete(pastaTemp, true);
+}
+Directory.CreateDirectory(pastaTemp);
+
+StreamWriter log = new(pastaTemp + @"\log.txt");
+
 StealthPlugin stealth = new();
 var puppeteer = new PuppeteerExtra();
 puppeteer.Use(stealth);
@@ -34,28 +45,15 @@ await page.SetViewportAsync(new ViewPortOptions()
 
 try
 {
-#if RELEASE
-    usuarioCatolica = args[0];
-    senhaCatolica = args[1];
-#else
-    usuarioCatolica = "teste";
-    senhaCatolica = "teste";
-#endif
-    log.WriteLine("Execução iniciada!");
+    log.WriteLine("Execução iniciada.");
     log.WriteLine("------------------------------------------------------------");
 
-    /*string pdf = @"C:\temp\declinacoes.pdf";
-    byte[] pdfBytesTeste = new GeracaoPdfService().GerarPDF(pdf);
-    Console.WriteLine("teste");
-    Console.WriteLine("teste");
-    Console.WriteLine("teste");
-    Console.OpenStandardOutput().Write(pdfBytesTeste, 0, pdfBytesTeste.Length);*/
-
-    await new CatolicaService(log, usuarioCatolica, senhaCatolica, browser, diretorioTemp).SiteCatolica(page);
+    await new CatolicaService(log, usuarioCatolica, senhaCatolica, browser, pastaTemp).SiteCatolica(page);
 }
 catch (Exception ex)
 {
     log.WriteLine(ex.Message);
+    Console.Error.WriteLine(ex.Message);
     Console.WriteLine(ex.Message);
 }
 finally
