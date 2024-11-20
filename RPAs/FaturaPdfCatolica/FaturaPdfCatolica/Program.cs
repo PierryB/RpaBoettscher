@@ -54,6 +54,6 @@ finally
 {
     await log.WriteLineAsync("------------------------------------------------------------");
     await log.WriteLineAsync(msgExecucao);
-    await log.DisposeAsync();
+    log.Dispose();
     await browser.CloseAsync();
 }
