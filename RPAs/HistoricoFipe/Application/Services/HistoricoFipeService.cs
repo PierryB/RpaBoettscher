@@ -1,4 +1,5 @@
 ﻿using PuppeteerSharp;
+using System.Globalization;
 
 namespace Application.Services;
 
@@ -10,281 +11,215 @@ public class HistoricoFipeService (StreamWriter logFile, StreamWriter csvFile, s
 
     public async Task SiteFipe(IPage page)
     {
-        if (String.IsNullOrEmpty(MesConferencia))
+        ValidateMesConferencia();
+        await CsvFile.WriteLineAsync("Marca;Modelo;Ano;Valor");
+
+        if (!await OpenFipeSite(page))
+        {
+            throw new Exception("Erro ao abrir o site da Fipe.");
+        }
+
+        await LogFile.WriteLineAsync("Abriu o site da Fipe com sucesso.");
+        await SelectReferenceMonth(page);
+
+        var marcas = await FetchOptions(page, "#selectMarcacarro");
+        foreach (var marca in marcas)
+        {
+            if (string.IsNullOrEmpty(marca)) continue;
+            await ProcessBrand(page, marca);
+        }
+    }
+
+    private void ValidateMesConferencia()
+    {
+        if (string.IsNullOrEmpty(MesConferencia))
         {
             throw new Exception("O parâmetro 'mesConferencia' está vazio.");
         }
-
-        string mesConferencia = MesConferencia;
-        StreamWriter log = LogFile;
-        StreamWriter csv = CsvFile;
-        await csv.WriteLineAsync("Marca;Modelo;Ano;Valor");
-        int countAbreNav = 0;
-        bool isAbriuSite = false;
-        while (countAbreNav < 5)
+        if (!DateTime.TryParseExact(MesConferencia, "MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime parsedDate))
         {
-            await page.GoToAsync("https://veiculos.fipe.org.br/", 20000,
-            [
-                WaitUntilNavigation.Load,
-                WaitUntilNavigation.DOMContentLoaded
-            ]);
+            throw new Exception("O parâmetro 'mesConferencia' não está em um formato válido. Use 'MM/yyyy'.");
+        }
 
+        MesConferencia = parsedDate.ToString("MMMM/yyyy", new CultureInfo("pt-BR"));
+    }
+
+    private static async Task<bool> OpenFipeSite(IPage page)
+    {
+        int attempts = 0;
+        while (attempts < 5)
+        {
             try
             {
-                Thread.Sleep(5000);
-                var isAbriuNavegador = await page.XPathAsync("//*[@id=\"banner\"]/div/h1");
-                if (isAbriuNavegador.Length > 0)
+                await page.GoToAsync("https://veiculos.fipe.org.br/", 20000, [WaitUntilNavigation.Load, WaitUntilNavigation.DOMContentLoaded]);
+                if (await IsSiteLoaded(page))
                 {
-                    isAbriuSite = true;
-                    break;
+                    await page.EvaluateExpressionAsync("document.querySelector('#front > div.content > div.tab.vertical.tab-veiculos > ul > li:nth-child(1) > a > div.title').click();");
+                    Thread.Sleep(500);
+                    return true;
                 }
             }
             catch
             {
+                attempts++;
                 Thread.Sleep(5000);
-                countAbreNav++;
-                continue;
             }
         }
-        if (!isAbriuSite)
-        {
-            throw new Exception("Erro ao abrir o site da Fipe.");
-        }
-        await log.WriteLineAsync("Abriu o site da Fipe com sucesso.");
-        await page.DeleteCookieAsync();
-        await page.SetCacheEnabledAsync(false);
+        return false;
+    }
 
-        await page.EvaluateExpressionAsync("window.scrollBy(0, window.innerHeight);");
-        Thread.Sleep(500);
-        await page.EvaluateExpressionAsync("document.querySelector('#front > div.content > div.tab.vertical.tab-veiculos > ul > li:nth-child(1) > a > div.title').click();");
-        Thread.Sleep(500);
+    private static async Task<bool> IsSiteLoaded(IPage page)
+    {
+        var elements = await page.XPathAsync("//*[@id=\"banner\"]/div/h1");
+        return elements.Length > 0;
+    }
 
+    private async Task SelectReferenceMonth(IPage page)
+    {
         try
         {
             await page.EvaluateFunctionAsync(@"(mesConferencia) => {
                 const selectElement = document.querySelector('#selectTabelaReferenciacarro');
-    
-                if (selectElement) {
-                    for (let option of selectElement.options) {
-                        if (option.text.includes(mesConferencia)) {
-                            option.selected = true;
-                            selectElement.dispatchEvent(new Event('change'));
-                            break;
-                        }
+                Array.from(selectElement.options).forEach(option => {
+                    if (option.text.includes(mesConferencia)) {
+                        option.selected = true;
+                        selectElement.dispatchEvent(new Event('change'));
                     }
-                }
-            }", mesConferencia);
+                });
+            }", MesConferencia);
         }
         catch
         {
-            throw new Exception($"Não foi possível selecionar o mês de {mesConferencia} para conferência.");
+            throw new Exception($"Não foi possível selecionar o mês de {MesConferencia} para conferência.");
         }
+    }
 
-        var marcas = await page.EvaluateFunctionAsync<string[]>(@"
-            () => {
-                const selectElement = document.querySelector('#selectMarcacarro');
-                return Array.from(selectElement.options).map(option => option.text);
-            }
+    private static async Task<string[]> FetchOptions(IPage page, string selector)
+    {
+        return await page.EvaluateFunctionAsync<string[]>($@"
+            () => {{
+                const selectElement = document.querySelector('{selector}');
+                return Array.from(selectElement.options).map(option => option.text.trim());
+            }}
         ");
+    }
 
-        if (marcas.Length == 0)
+    private async Task ProcessBrand(IPage page, string marca)
+    {
+        try
         {
-            throw new Exception("Não foi possível coletar as marcas dos veículos.");
-        }
-
-        bool isCarregouTab = false;
-        int countMarcas = 0;
-        foreach (var marca in marcas)
-        {
-            countMarcas++;
-            if (String.IsNullOrEmpty(marca))
-                continue;
-            
-            try
-            {
-                await page.EvaluateFunctionAsync(@"(marca) => {
-                const selectElement = document.querySelector('#selectMarcacarro');
-    
-                if (selectElement) {
-                    for (let option of selectElement.options) {
-                        if (option.text.includes(marca)) {
-                            option.selected = true;
-                            selectElement.dispatchEvent(new Event('change'));
-                            break;
-                        }
-                    }
-                }
-            }", marca);
-            }
-            catch
-            {
-                await log.WriteLineAsync($"Não foi possível selecionar a marca {marca}.");
-                continue;
-            }
-            Thread.Sleep(500);
-
-            var modelos = await page.EvaluateFunctionAsync<string[]>(@"
-                () => {
-                    const selectElement = document.querySelector('#selectAnoModelocarro');
-                    return Array.from(selectElement.options).map(option => option.text);
-                }
-            ");
-            if (modelos.Length == 0)
-            {
-                await log.WriteLineAsync($"Não encontrou nenhum modelo para a marca {marca}.");
-                continue;
-            }
-
+            await SelectOption(page, "#selectMarcacarro", marca);
+            var modelos = await FetchOptions(page, "#selectAnoModelocarro");
             foreach (var modelo in modelos)
             {
-                if (String.IsNullOrEmpty(modelo))
-                    continue;
-
-                try
-                {
-                    await page.EvaluateFunctionAsync(@"(marca) => {
-                        const selectElement = document.querySelector('#selectMarcacarro');
-    
-                        if (selectElement) {
-                            for (let option of selectElement.options) {
-                                if (option.text.includes(marca)) {
-                                    option.selected = true;
-                                    selectElement.dispatchEvent(new Event('change'));
-                                    break;
-                                }
-                            }
-                        }
-                    }", marca);
-                }
-                catch
-                {
-                    await log.WriteLineAsync($"Não foi possível selecionar a marca {marca}.");
-                    continue;
-                }
-                Thread.Sleep(500);
-
-                try
-                {
-                    await page.EvaluateFunctionAsync(@"(modelo) => {
-                        const selectElement = document.querySelector('#selectAnoModelocarro');
-    
-                        if (selectElement) {
-                            for (let option of selectElement.options) {
-                                if (option.text.includes(modelo)) {
-                                    option.selected = true;
-                                    selectElement.dispatchEvent(new Event('change'));
-                                    break;
-                                }
-                            }
-                        }
-                    }", modelo);
-                }
-                catch
-                {
-                    await log.WriteLineAsync($"Não foi possível selecionar o modelo {modelo}.");
-                    continue;
-                }
-                Thread.Sleep(500);
-
-                var anos = await page.EvaluateFunctionAsync<string[]>(@"
-                    () => {
-                        const selectElement = document.querySelector('#selectAnocarro');
-                        return Array.from(selectElement.options).map(option => option.text);
-                    }
-                ");
-                if (anos.Length == 0)
-                {
-                    await log.WriteLineAsync($"Não encontrou nenhum ano para o veículo {marca} {modelo}.");
-                    continue;
-                }
-
-                foreach (var ano in anos)
-                {
-                    isCarregouTab = false;
-                    if (String.IsNullOrEmpty(ano))
-                        continue;
-
-                    try
-                    {
-                        await page.EvaluateFunctionAsync(@"(ano) => {
-                        const selectElement = document.querySelector('#selectAnocarro');
-    
-                        if (selectElement) {
-                            for (let option of selectElement.options) {
-                                if (option.text.includes(ano)) {
-                                    option.selected = true;
-                                    selectElement.dispatchEvent(new Event('change'));
-                                    break;
-                                }
-                            }
-                        }
-                    }", ano);
-                    }
-                    catch
-                    {
-                        await log.WriteLineAsync($"Não foi possível selecionar o ano {ano}.");
-                        continue;
-                    }
-                    Thread.Sleep(500);
-
-                    await page.EvaluateExpressionAsync("document.querySelector(\"#buttonPesquisarcarro\").click()");
-                    try
-                    {
-                        await page.WaitForSelectorAsync("#resultadoConsultacarroFiltros > table", new WaitForSelectorOptions
-                        {
-                            Timeout = 15000
-                        });
-                        isCarregouTab = true;
-                    }
-                    catch
-                    {
-                        bool isAlertaVisivel = await page.EvaluateFunctionAsync<bool>(@"
-                            () => {
-                                const alerta = document.querySelector('#mm-0 > div.modal.alert');
-                                return alerta && getComputedStyle(alerta).display !== 'none';
-                            }
-                        ");
-
-                        if (isAlertaVisivel)
-                        {
-                            await page.ClickAsync("#mm-0 > div.modal.alert > div.btnClose");
-                            Thread.Sleep(10000);
-                            await page.EvaluateExpressionAsync("document.querySelector(\"#buttonPesquisarcarro\").click()");
-                        }
-                    }
-
-                    if (!isCarregouTab)
-                    {
-                        try
-                        {
-                            await page.WaitForSelectorAsync("#resultadoConsultacarroFiltros > table", new WaitForSelectorOptions
-                            {
-                                Timeout = 15000
-                            });
-                        }
-                        catch
-                        {
-                            throw new Exception($"Erro ao pesquisar o veículo {marca} {modelo} {ano}.");
-                        }
-                    }
-
-                    var resultado = await page.EvaluateFunctionAsync<string[]>(@"
-                        () => {
-                            const resultado = [];
-                            resultado.push(document.querySelector('#resultadoConsultacarroFiltros > table > tbody > tr:nth-child(3) > td:nth-child(2)').innerText);
-                            resultado.push(document.querySelector('#resultadoConsultacarroFiltros > table > tbody > tr:nth-child(4) > td:nth-child(2)').innerText);
-                            resultado.push(document.querySelector('#resultadoConsultacarroFiltros > table > tbody > tr:nth-child(5) > td:nth-child(2)').innerText);
-                            resultado.push(document.querySelector('#resultadoConsultacarroFiltros > table > tbody > tr:nth-child(8) > td:nth-child(2)').innerText);
-                            return resultado;
-                        }
-                    ");
-
-                    await csv.WriteLineAsync($"{resultado[0].Trim()};{resultado[1].Trim()};{resultado[2].Trim()};{resultado[3].Replace("R$","").Trim()}");
-                    Thread.Sleep(2000);
-                }
-                await page.ClickAsync("#buttonLimparPesquisarcarro > a");
-                Thread.Sleep(3000);
+                if (string.IsNullOrEmpty(modelo)) continue;
+                await ProcessModel(page, marca, modelo);
             }
         }
+        catch
+        {
+            await LogFile.WriteLineAsync($"Não foi possível processar a marca {marca}.");
+        }
+    }
+
+    private async Task ProcessModel(IPage page, string marca, string modelo)
+    {
+        try
+        {
+            await SelectOption(page, "#selectAnoModelocarro", modelo);
+            var anos = await FetchOptions(page, "#selectAnocarro");
+            foreach (var ano in anos)
+            {
+                if (string.IsNullOrEmpty(ano)) continue;
+                await ProcessYear(page, marca, modelo, ano);
+            }
+
+            await page.EvaluateExpressionAsync("document.querySelector('#buttonLimparPesquisarcarro > a').click()");
+            Thread.Sleep(3000);
+
+            await SelectOption(page, "#selectMarcacarro", marca);
+        }
+        catch
+        {
+            await LogFile.WriteLineAsync($"Não foi possível processar o modelo {modelo}.");
+        }
+    }
+
+    private async Task ProcessYear(IPage page, string marca, string modelo, string ano)
+    {
+        try
+        {
+            await SelectOption(page, "#selectAnocarro", ano);
+            await SearchVehicle(page);
+            Thread.Sleep(2000);
+
+            var valor = await FetchVehicleData(page);
+            if (!string.IsNullOrEmpty(valor))
+            {
+                await CsvFile.WriteLineAsync($"{marca};{modelo};{ano};{valor.Replace("R$", "").Trim()}");
+            }
+            else
+            {
+                await LogFile.WriteLineAsync($"Nenhum valor encontrado para o veículo {marca} {modelo} {ano}.");
+            }
+        }
+        catch
+        {
+            await LogFile.WriteLineAsync($"Erro ao processar o ano {ano} para o veículo {marca} {modelo}.");
+        }
+    }
+
+    private static async Task SelectOption(IPage page, string selector, string value)
+    {
+        await page.EvaluateFunctionAsync(@$"(value) => {{
+            const selectElement = document.querySelector('{selector}');
+            Array.from(selectElement.options).forEach(option => {{
+                if (option.text.includes(value)) {{
+                   option.selected = true;
+                   selectElement.dispatchEvent(new Event('change'));
+                }}
+            }});
+        }}", value);
+        Thread.Sleep(500);
+    }
+
+    private static async Task SearchVehicle(IPage page)
+    {
+        try
+        {
+            await page.EvaluateExpressionAsync("document.querySelector('#buttonPesquisarcarro').click()");
+
+            await page.WaitForSelectorAsync("#resultadoConsultacarroFiltros > table, #mm-0 > div.modal.alert", new WaitForSelectorOptions { Timeout = 15000 });
+
+            bool isErrorVisible = await page.EvaluateFunctionAsync<bool>(@"
+                () => {
+                    const alerta = document.querySelector('#mm-0 > div.modal.alert');
+                    return alerta && getComputedStyle(alerta).display !== 'none';
+                }
+            ");
+
+            if (isErrorVisible)
+            {
+                await page.EvaluateExpressionAsync("document.querySelector('#mm-0 > div.modal.alert > div.btnClose').click()");
+                Thread.Sleep(10000);
+
+                await page.EvaluateExpressionAsync("document.querySelector('#buttonPesquisarcarro').click()");
+                await page.WaitForSelectorAsync("#resultadoConsultacarroFiltros > table", new WaitForSelectorOptions { Timeout = 15000 });
+            }
+        }
+        catch
+        {
+            throw new Exception("Erro ao tentar pesquisar o veículo.");
+        }
+    }
+
+    private static async Task<string> FetchVehicleData(IPage page)
+    {
+        return await page.EvaluateFunctionAsync<string>(@"
+            () => {
+                const cell = document.querySelector('#resultadoConsultacarroFiltros > table > tbody > tr:nth-child(8) > td:nth-child(2)');
+                return cell ? cell.innerText.trim() : null;
+            }
+        ");
     }
 }
