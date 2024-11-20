@@ -17,14 +17,10 @@ string pastaTemp = string.Empty;
     pastaTemp = $@"C:\temp\PdfCatolica\{Guid.NewGuid()}";
 #endif
 
-if (Directory.Exists(pastaTemp))
-{
-    Directory.Delete(pastaTemp, true);
-}
 Directory.CreateDirectory(pastaTemp);
 
+string msgExecucao = "INÍCIO";
 StreamWriter log = new(pastaTemp + @"\log.txt");
-
 StealthPlugin stealth = new();
 var puppeteer = new PuppeteerExtra();
 puppeteer.Use(stealth);
@@ -45,19 +41,19 @@ await page.SetViewportAsync(new ViewPortOptions()
 
 try
 {
-    log.WriteLine("Execução iniciada.");
-    log.WriteLine("------------------------------------------------------------");
-
+    await log.WriteLineAsync(msgExecucao);
+    await log.WriteLineAsync("------------------------------------------------------------");
     await new CatolicaService(log, usuarioCatolica, senhaCatolica, browser, pastaTemp).SiteCatolica(page);
+    msgExecucao = "FIM";
 }
 catch (Exception ex)
 {
-    log.WriteLine(ex.Message);
-    Console.Error.WriteLine(ex.Message);
-    Console.WriteLine(ex.Message);
+    msgExecucao = $"Erro na execução: {ex.Message}";
 }
 finally
 {
+    await log.WriteLineAsync("------------------------------------------------------------");
+    await log.WriteLineAsync(msgExecucao);
     log.Dispose();
     await browser.CloseAsync();
 }

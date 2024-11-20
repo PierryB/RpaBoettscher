@@ -18,7 +18,7 @@ public class HistoricoFipeService (StreamWriter logFile, StreamWriter csvFile, s
         string mesConferencia = MesConferencia;
         StreamWriter log = LogFile;
         StreamWriter csv = CsvFile;
-        csv.WriteLine("Marca;Modelo;Ano;Valor");
+        await csv.WriteLineAsync("Marca;Modelo;Ano;Valor");
         int countAbreNav = 0;
         bool isAbriuSite = false;
         while (countAbreNav < 5)
@@ -50,7 +50,7 @@ public class HistoricoFipeService (StreamWriter logFile, StreamWriter csvFile, s
         {
             throw new Exception("Erro ao abrir o site da Fipe.");
         }
-        log.WriteLine("Abriu o site da Fipe com sucesso.");
+        await log.WriteLineAsync("Abriu o site da Fipe com sucesso.");
         await page.DeleteCookieAsync();
         await page.SetCacheEnabledAsync(false);
 
@@ -118,7 +118,7 @@ public class HistoricoFipeService (StreamWriter logFile, StreamWriter csvFile, s
             }
             catch
             {
-                log.WriteLine($"Não foi possível selecionar a marca {marca}.");
+                await log.WriteLineAsync($"Não foi possível selecionar a marca {marca}.");
                 continue;
             }
             Thread.Sleep(500);
@@ -131,7 +131,7 @@ public class HistoricoFipeService (StreamWriter logFile, StreamWriter csvFile, s
             ");
             if (modelos.Length == 0)
             {
-                log.WriteLine($"Não encontrou nenhum modelo para a marca {marca}.");
+                await log.WriteLineAsync($"Não encontrou nenhum modelo para a marca {marca}.");
                 continue;
             }
 
@@ -158,7 +158,7 @@ public class HistoricoFipeService (StreamWriter logFile, StreamWriter csvFile, s
                 }
                 catch
                 {
-                    log.WriteLine($"Não foi possível selecionar a marca {marca}.");
+                    await log.WriteLineAsync($"Não foi possível selecionar a marca {marca}.");
                     continue;
                 }
                 Thread.Sleep(500);
@@ -181,7 +181,7 @@ public class HistoricoFipeService (StreamWriter logFile, StreamWriter csvFile, s
                 }
                 catch
                 {
-                    log.WriteLine($"Não foi possível selecionar o modelo {modelo}.");
+                    await log.WriteLineAsync($"Não foi possível selecionar o modelo {modelo}.");
                     continue;
                 }
                 Thread.Sleep(500);
@@ -194,7 +194,7 @@ public class HistoricoFipeService (StreamWriter logFile, StreamWriter csvFile, s
                 ");
                 if (anos.Length == 0)
                 {
-                    log.WriteLine($"Não encontrou nenhum ano para o veículo {marca} {modelo}.");
+                    await log.WriteLineAsync($"Não encontrou nenhum ano para o veículo {marca} {modelo}.");
                     continue;
                 }
 
@@ -222,7 +222,7 @@ public class HistoricoFipeService (StreamWriter logFile, StreamWriter csvFile, s
                     }
                     catch
                     {
-                        log.WriteLine($"Não foi possível selecionar o ano {ano}.");
+                        await log.WriteLineAsync($"Não foi possível selecionar o ano {ano}.");
                         continue;
                     }
                     Thread.Sleep(500);
@@ -279,7 +279,7 @@ public class HistoricoFipeService (StreamWriter logFile, StreamWriter csvFile, s
                         }
                     ");
 
-                    csv.WriteLine($"{resultado[0].Trim()};{resultado[1].Trim()};{resultado[2].Trim()};{resultado[3].Replace("R$","").Trim()}");
+                    await csv.WriteLineAsync($"{resultado[0].Trim()};{resultado[1].Trim()};{resultado[2].Trim()};{resultado[3].Replace("R$","").Trim()}");
                     Thread.Sleep(2000);
                 }
                 await page.ClickAsync("#buttonLimparPesquisarcarro > a");
