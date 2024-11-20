@@ -3,11 +3,12 @@ using System.Globalization;
 
 namespace Application.Services;
 
-public class HistoricoFipeService (StreamWriter logFile, StreamWriter csvFile, string mesConferencia)
+public class HistoricoFipeService (StreamWriter logFile, StreamWriter csvFile, string mesConferencia, string baseUrl)
 {
-    public StreamWriter LogFile { get; set; } = logFile;
-    public StreamWriter CsvFile { get; set; } = csvFile;
-    public string MesConferencia { get; set; } = mesConferencia.Trim();
+    private StreamWriter LogFile { get; set; } = logFile;
+    private StreamWriter CsvFile { get; set; } = csvFile;
+    private string MesConferencia { get; set; } = mesConferencia.Trim();
+    private string Url { get; set; } = baseUrl;
 
     public async Task SiteFipe(IPage page)
     {
@@ -44,14 +45,14 @@ public class HistoricoFipeService (StreamWriter logFile, StreamWriter csvFile, s
         MesConferencia = parsedDate.ToString("MMMM/yyyy", new CultureInfo("pt-BR"));
     }
 
-    private static async Task<bool> OpenFipeSite(IPage page)
+    private async Task<bool> OpenFipeSite(IPage page)
     {
         int attempts = 0;
         while (attempts < 5)
         {
             try
             {
-                await page.GoToAsync("https://veiculos.fipe.org.br/", 20000, [WaitUntilNavigation.Load, WaitUntilNavigation.DOMContentLoaded]);
+                await page.GoToAsync(Url, 20000, [WaitUntilNavigation.Load, WaitUntilNavigation.DOMContentLoaded]);
                 if (await IsSiteLoaded(page))
                 {
                     await page.EvaluateExpressionAsync("document.querySelector('#front > div.content > div.tab.vertical.tab-veiculos > ul > li:nth-child(1) > a > div.title').click();");
