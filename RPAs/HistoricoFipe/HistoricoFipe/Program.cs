@@ -41,8 +41,8 @@ await page.SetViewportAsync(new ViewPortOptions()
 
 try
 {
-    log.WriteLine(msgExecucao);
-    log.WriteLine("------------------------------------------------------------");
+    await log.WriteLineAsync(msgExecucao);
+    await log.WriteLineAsync("------------------------------------------------------------");
 
     await new HistoricoFipeService(log, csv, mesReferencia).SiteFipe(page);
 
@@ -57,8 +57,8 @@ finally
     await browser.CloseAsync();
     csv.Close();
     new ConverterCsvService(pastaTemp).ExportarParaExcel(csvPath);
-    log.WriteLine("------------------------------------------------------------");
-    log.WriteLine(msgExecucao);
+    await log.WriteLineAsync("------------------------------------------------------------");
+    await log.WriteLineAsync(msgExecucao);
     log.Dispose();
     csv.Dispose();
 }

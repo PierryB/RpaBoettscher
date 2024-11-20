@@ -57,7 +57,7 @@ public class CatolicaService(StreamWriter logFile, string usuarioCatolica, strin
         {
             throw new Exception("Erro ao abrir o site da Católica SC.");
         }
-        log.WriteLine("Abriu o site da Católica SC com sucesso.");
+        await log.WriteLineAsync("Abriu o site da Católica SC com sucesso.");
         await page.DeleteCookieAsync();
         await page.SetCacheEnabledAsync(false);
 
@@ -138,7 +138,7 @@ public class CatolicaService(StreamWriter logFile, string usuarioCatolica, strin
 
         if (File.Exists(caminhoArquivoPdf))
         {
-            log.WriteLine("Arquivo pdf baixado com sucesso! -> " + caminhoArquivoPdf);
+            await log.WriteLineAsync("Arquivo pdf baixado com sucesso! -> " + caminhoArquivoPdf);
             Console.WriteLine(caminhoArquivoPdf);
         }
     }
