@@ -9,7 +9,7 @@ string pastaTemp = string.Empty;
     mesReferencia = args[0];
     pastaTemp = args[1];
 #else
-    mesReferencia = "setembro/2024";
+    mesReferencia = "10/2024";
     pastaTemp = $@"C:\temp\HistoricoFipe\{Guid.NewGuid()}";
 #endif
 
