@@ -46,12 +46,13 @@ public class HistoricoFipeService (StreamWriter logFile, StreamWriter csvFile, s
 
     private static async Task<bool> OpenFipeSite(IPage page)
     {
+        string url = "https://veiculos.fipe.org.br/";
         int attempts = 0;
         while (attempts < 5)
         {
             try
             {
-                await page.GoToAsync("https://veiculos.fipe.org.br/", 20000, [WaitUntilNavigation.Load, WaitUntilNavigation.DOMContentLoaded]);
+                await page.GoToAsync(url, 20000, [WaitUntilNavigation.Load, WaitUntilNavigation.DOMContentLoaded]);
                 if (await IsSiteLoaded(page))
                 {
                     await page.EvaluateExpressionAsync("document.querySelector('#front > div.content > div.tab.vertical.tab-veiculos > ul > li:nth-child(1) > a > div.title').click();");

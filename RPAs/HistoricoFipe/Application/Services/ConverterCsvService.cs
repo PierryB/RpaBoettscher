@@ -10,24 +10,22 @@ public class ConverterCsvService (string diretorioTemp)
     
     public void ExportarParaExcel(string csvPath)
     {
-        string diretorioTemp = DiretorioTemp ?? string.Empty;
-        string caminhoExcel = $@"{diretorioTemp}\Excel Tabela Fipe.xlsx";
+        string caminhoExcel = $@"{DiretorioTemp}\Excel Tabela Fipe.xlsx";
 
         var linhas = new List<string[]>();
 
         using StreamReader reader = new(csvPath);
+
         string linha;
         while ((linha = reader.ReadLine()) != null)
         {
             string[] colunas = linha.Split(';');
             linhas.Add(colunas);
         }
-        reader.Close();
-        reader.Dispose();
 
         ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-
         using ExcelPackage pacote = new();
+
         var planilha = pacote.Workbook.Worksheets.Add("Tabela Fipe");
 
         for (int i = 0; i < linhas.Count; i++)
@@ -65,6 +63,5 @@ public class ConverterCsvService (string diretorioTemp)
 
         FileInfo arquivoExcel = new(caminhoExcel);
         pacote.SaveAs(arquivoExcel);
-        pacote.Dispose();
     }
 }

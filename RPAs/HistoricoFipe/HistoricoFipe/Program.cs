@@ -59,6 +59,6 @@ finally
     new ConverterCsvService(pastaTemp).ExportarParaExcel(csvPath);
     await log.WriteLineAsync("------------------------------------------------------------");
     await log.WriteLineAsync(msgExecucao);
-    log.Dispose();
-    csv.Dispose();
+    await log.DisposeAsync();
+    await csv.DisposeAsync();
 }
