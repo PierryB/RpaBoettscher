@@ -1,4 +1,5 @@
 ﻿using PuppeteerSharp;
+using System.Globalization;
 using WindowsInput;
 using WindowsInput.Native;
 
@@ -6,13 +7,11 @@ namespace Application.Services;
 
 public class CatolicaService(StreamWriter logFile, string usuarioCatolica, string senhaCatolica, IBrowser browser, string diretorioTemp)
 {
-
     public StreamWriter LogFile { get; set; } = logFile;
     public string UsuarioCatolica { get; set; } = usuarioCatolica.Trim();
     public string SenhaCatolica { get; set; } = senhaCatolica.Trim();
     public IBrowser Browser { get; set; } = browser;
     public string DiretorioTemp { get; set; } = diretorioTemp;
-
 
     public async Task SiteCatolica(IPage page)
     {
@@ -101,7 +100,7 @@ public class CatolicaService(StreamWriter logFile, string usuarioCatolica, strin
         }
         catch (Exception ex)
         {
-            throw new TimeoutException($"Não há nenhum boleto em aberto para o mês de {DateTime.Now:MMMM}.", ex);
+            throw new TimeoutException($"Não há nenhum boleto em aberto para o mês de {DateTime.Now.ToString("MMMM", new CultureInfo("pt-BR"))}.", ex);
         }
 
         await page.ClickAsync("#btnBoletoMenu");
@@ -140,9 +139,7 @@ public class CatolicaService(StreamWriter logFile, string usuarioCatolica, strin
         if (File.Exists(caminhoArquivoPdf))
         {
             log.WriteLine("Arquivo pdf baixado com sucesso! -> " + caminhoArquivoPdf);
-            byte[] pdfBytes = new GeracaoPdfService().GerarPDF(caminhoArquivoPdf) ?? throw new Exception("Não foi possível converter o PDF baixado para bytes.");
-            Console.Clear();
-            Console.OpenStandardOutput().Write(pdfBytes, 0, pdfBytes.Length);
+            Console.WriteLine(caminhoArquivoPdf);
         }
     }
 
