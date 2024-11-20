@@ -23,7 +23,6 @@ public class CatolicaService(StreamWriter logFile, string usuarioCatolica, strin
         {
             throw new Exception("O parâmetro 'senhaCatolica' está vazio");
         }
-        string diretorioTemp = DiretorioTemp ?? string.Empty;
         StreamWriter log = LogFile;
         var browser = Browser;
         int countAbreNav = 0;
@@ -127,14 +126,14 @@ public class CatolicaService(StreamWriter logFile, string usuarioCatolica, strin
         input.Keyboard.KeyPress(VirtualKeyCode.RETURN);
         Thread.Sleep(5000);
 
-        input.Keyboard.TextEntry(diretorioTemp + @$"\FaturaCatolica {DateTime.Now:ddMMyyyy}");
+        input.Keyboard.TextEntry(DiretorioTemp + @$"\FaturaCatolica {DateTime.Now:ddMMyyyy}");
         Thread.Sleep(2000);
 
         input.Keyboard.KeyPress(VirtualKeyCode.RETURN);
         Thread.Sleep(5000);
 
         int timeout = 600;
-        string caminhoArquivoPdf = await BuscarDownloadPdf(diretorioTemp, timeout);
+        string caminhoArquivoPdf = await BuscarDownloadPdf(DiretorioTemp, timeout);
 
         if (File.Exists(caminhoArquivoPdf))
         {
