@@ -1,7 +1,6 @@
 ﻿using Application.Services;
 using PuppeteerExtraSharp;
 using PuppeteerSharp;
-using static System.Net.WebRequestMethods;
 
 string mesReferencia = string.Empty;
 string pastaTemp = string.Empty;
