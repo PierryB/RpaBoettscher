@@ -1,6 +1,7 @@
 ﻿using Application.Services;
 using PuppeteerExtraSharp;
 using PuppeteerSharp;
+using static System.Net.WebRequestMethods;
 
 string mesReferencia = string.Empty;
 string pastaTemp = string.Empty;
@@ -21,6 +22,7 @@ Directory.CreateDirectory(pastaTemp);
 
 StreamWriter log = new(pastaTemp + @"\log.txt");
 StreamWriter csv = new(pastaTemp + @"\TabelaFipe.csv");
+string url = "https://veiculos.fipe.org.br/";
 string csvPath = pastaTemp + @"\TabelaFipe.csv";
 string msgExecucao = "INÍCIO";
 var puppeteer = new PuppeteerExtra();
@@ -44,7 +46,7 @@ try
     await log.WriteLineAsync(msgExecucao);
     await log.WriteLineAsync("------------------------------------------------------------");
 
-    await new HistoricoFipeService(log, csv, mesReferencia).SiteFipe(page);
+    await new HistoricoFipeService(log, csv, mesReferencia, url).SiteFipe(page);
 
     msgExecucao = "FIM";
 }
