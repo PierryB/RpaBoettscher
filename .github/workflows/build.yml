@@ -41,6 +41,9 @@ jobs:
       - name: Check MSBuild version
         shell: powershell
         run: dotnet msbuild /version
+
+      - name: Debug current directory
+        run: dir
       
       - name: Build and analyze
         env:
@@ -63,3 +66,11 @@ jobs:
           
           # SonarScanner end
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+
+      - name: Verify .sonarqube folder
+        run: |
+          if (Test-Path -Path .\.sonarqube) {
+            Write-Host ".sonarqube folder exists"
+          } else {
+            Write-Host ".sonarqube folder does not exist"
+          }
