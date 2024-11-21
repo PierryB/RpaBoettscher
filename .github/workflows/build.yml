@@ -40,7 +40,7 @@ jobs:
 
       - name: Check MSBuild version
         shell: powershell
-        run: msbuild /version
+        run: dotnet msbuild /version
       
       - name: Build and analyze
         env:
