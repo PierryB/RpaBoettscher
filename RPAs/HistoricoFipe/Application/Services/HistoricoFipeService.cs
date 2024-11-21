@@ -28,6 +28,7 @@ public class HistoricoFipeService (StreamWriter logFile, StreamWriter csvFile, s
         {
             if (string.IsNullOrEmpty(marca)) continue;
             await ProcessBrand(page, marca);
+            break;
         }
     }
 
