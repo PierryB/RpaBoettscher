@@ -43,6 +43,7 @@ O projeto utiliza uma máquina local para executar os RPA's. A comunicação ent
 - GitHub - https://github.com/
 - AWS EC2 - https://aws.amazon.com/ec2/
 - Auth0 - https://auth0.com/
+- SonarQube - https://sonarcloud.io/
 
 ## Repositório Front
 - https://github.com/PierryB/SiteRpa
