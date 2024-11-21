@@ -41,32 +41,41 @@ jobs:
       - name: Check MSBuild version
         shell: powershell
         run: dotnet msbuild /version
-
-      - name: Debug current directory
-        run: dir
       
-      - name: Build and analyze
+      - name: Debug directory before begin
+        run: dir
+
+      - name: SonarScanner begin
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          # SonarScanner begin
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"PierryB_RpaBoettscher" /o:"rpasboettscher" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-          
-          # Build FaturaPdfCatolica
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"PierryB_RpaBoettscher" /o:"rpasboettscher" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.verbose=true
+
+      - name: Debug directory after begin
+        run: dir
+      
+      - name: Build FaturaPdfCatolica
+        shell: powershell
+        run: |
           cd RPAs\FaturaPdfCatolica
           dotnet build
           cd ../..
-          
-          # Build HistoricoFipe
+      
+      - name: Build HistoricoFipe
+        shell: powershell
+        run: |
           cd RPAs\HistoricoFipe
           dotnet build
           cd ../..
-          
-          # SonarScanner end
+      
+      - name: SonarScanner end
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        shell: powershell
+        run: |
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
-
+      
       - name: Verify .sonarqube folder
         run: |
           if (Test-Path -Path .\.sonarqube) {
