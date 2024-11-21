@@ -132,7 +132,7 @@ public class CatolicaService(StreamWriter logFile, string usuarioCatolica, strin
         input.Keyboard.KeyPress(VirtualKeyCode.RETURN);
         Thread.Sleep(5000);
 
-        int timeout = 600;
+        int timeout = 60;
         string caminhoArquivoPdf = await BuscarDownloadPdf(DiretorioTemp, timeout);
 
         if (File.Exists(caminhoArquivoPdf))
