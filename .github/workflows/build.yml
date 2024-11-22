@@ -40,7 +40,7 @@ jobs:
       - name: Install SonarQube Cloud scanner
         run: |
           dotnet tool install --global dotnet-sonarscanner
-          echo "::add-path::C:\Users\runneradmin\.dotnet\tools" >> $GITHUB_ENV
+          echo "C:\Users\runneradmin\.dotnet\tools" >> $GITHUB_ENV
 
       - name: Analyze FaturaPdfCatolica
         env:
@@ -48,7 +48,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           cd RPAs/FaturaPdfCatolica
-          dotnet-sonarscanner begin /k:"PierryB_FaturaPdfCatolica" /o:"rpasboettscher" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          dotnet-sonarscanner begin /k:"PierryB_RpaBoettscher" /o:"rpasboettscher" /d:sonar.branch.name="main" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           dotnet build FaturaPdfCatolica.sln
           dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
 
@@ -58,6 +58,6 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           cd RPAs/HistoricoFipe
-          dotnet-sonarscanner begin /k:"PierryB_HistoricoFipe" /o:"rpasboettscher" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          dotnet-sonarscanner begin /k:"PierryB_RpaBoettscher" /o:"rpasboettscher" /d:sonar.branch.name="main" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           dotnet build HistoricoFipe.sln
           dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
