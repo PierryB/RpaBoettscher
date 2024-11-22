@@ -39,29 +39,26 @@ jobs:
 
       - name: Install SonarQube Cloud scanner
         if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
-        shell: powershell
         run: |
-          mkdir -p .sonar/scanner
-          dotnet tool update dotnet-sonarscanner --tool-path .sonar/scanner
+          dotnet tool install --global dotnet-sonarscanner
+          echo "##[add-path]$HOME\.dotnet\tools"
 
       - name: Analyze FaturaPdfCatolica
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        shell: powershell
         run: |
           cd RPAs/FaturaPdfCatolica
-          .sonar/scanner/dotnet-sonarscanner begin /k:"PierryB_FaturaPdfCatolica" /o:"rpasboettscher" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          dotnet-sonarscanner begin /k:"PierryB_FaturaPdfCatolica" /o:"rpasboettscher" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           dotnet build FaturaPdfCatolica.sln
-          .sonar/scanner/dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+          dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
 
       - name: Analyze HistoricoFipe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        shell: powershell
         run: |
           cd RPAs/HistoricoFipe
-          .sonar/scanner/dotnet-sonarscanner begin /k:"PierryB_HistoricoFipe" /o:"rpasboettscher" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          dotnet-sonarscanner begin /k:"PierryB_HistoricoFipe" /o:"rpasboettscher" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           dotnet build HistoricoFipe.sln
-          .sonar/scanner/dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+          dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
