@@ -144,44 +144,48 @@ public class CatolicaService(StreamWriter logFile, string usuarioCatolica, strin
 
     public static async Task<string> BuscarDownloadPdf(string diretorioDownload, int timeoutInSeconds)
     {
-        bool pdfEncontrado = false;
-        string? pdfPath = null;
-
         using var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(timeoutInSeconds));
+
         try
         {
-            while (!pdfEncontrado && !cancellationTokenSource.Token.IsCancellationRequested)
-            {
-                string[] pdfFiles = Directory.GetFiles(diretorioDownload, "*.pdf");
-
-                if (pdfFiles.Length > 0)
-                {
-                    foreach (var file in pdfFiles)
-                    {
-                        if (IsFileReady(file))
-                        {
-                            pdfPath = file;
-                            pdfEncontrado = true;
-                            break;
-                        }
-                    }
-                }
-
-                if (!pdfEncontrado)
-                    await Task.Delay(1000, cancellationTokenSource.Token);
-            }
+            string? pdfPath = await WaitForPdfFileAsync(diretorioDownload, cancellationTokenSource.Token);
 
             if (File.Exists(pdfPath))
                 return pdfPath;
-            else
-                throw new TimeoutException("O download do arquivo PDF não foi concluído dentro do tempo esperado.");
+
+            throw new TimeoutException("O download do arquivo PDF não foi concluído dentro do tempo esperado.");
         }
         catch (TaskCanceledException ex)
         {
             throw new TaskCanceledException("O download do arquivo PDF não foi concluído dentro do tempo esperado.", ex);
         }
     }
+    private static async Task<string?> WaitForPdfFileAsync(string diretorioDownload, CancellationToken cancellationToken)
+    {
+        while (!cancellationToken.IsCancellationRequested)
+        {
+            string? pdfPath = GetReadyPdfFile(diretorioDownload);
 
+            if (!string.IsNullOrEmpty(pdfPath))
+                return pdfPath;
+
+            await Task.Delay(1000, cancellationToken);
+        }
+
+        return null;
+    }
+    private static string? GetReadyPdfFile(string diretorioDownload)
+    {
+        var pdfFiles = Directory.GetFiles(diretorioDownload, "*.pdf");
+
+        foreach (var file in pdfFiles)
+        {
+            if (IsFileReady(file))
+                return file;
+        }
+
+        return null;
+    }
     private static bool IsFileReady(string filePath)
     {
         try

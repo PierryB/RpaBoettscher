@@ -12,9 +12,9 @@ string pastaTemp = string.Empty;
     senhaCatolica = args[1];
     pastaTemp = args[2];
 #else
-    usuarioCatolica = "teste";
-    senhaCatolica = "teste";
-    pastaTemp = $@"C:\temp\PdfCatolica\{Guid.NewGuid()}";
+    usuarioCatolica = "";
+    senhaCatolica = "";
+    pastaTemp = $@"";
 #endif
 
 Directory.CreateDirectory(pastaTemp);
