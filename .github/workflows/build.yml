@@ -1,4 +1,4 @@
-name: SonarQube Cloud
+name: Build
 on:
   push:
     branches:
@@ -6,80 +6,15 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
 jobs:
-  build:
-    name: Build and analyze
-    runs-on: windows-latest
+  sonarcloud:
+    name: SonarQube Cloud
+    runs-on: ubuntu-latest
     steps:
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
-        with:
-          java-version: 17
-          distribution: 'zulu'
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0
-      - name: Cache SonarQube Cloud packages
-        uses: actions/cache@v4
-        with:
-          path: ~\sonar\cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: ${{ runner.os }}-sonar
-      - name: Cache SonarQube Cloud scanner
-        id: cache-sonar-scanner
-        uses: actions/cache@v4
-        with:
-          path: .\.sonar\scanner
-          key: ${{ runner.os }}-sonar-scanner
-          restore-keys: ${{ runner.os }}-sonar-scanner
-      - name: Install SonarQube Cloud scanner
-        if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
-        shell: powershell
-        run: |
-          New-Item -Path .\.sonar\scanner -ItemType Directory
-          dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
-
-      - name: Check MSBuild version
-        shell: powershell
-        run: dotnet msbuild /version
-      
-      - name: Debug directory before begin
-        run: dir
-
-      - name: SonarScanner begin
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+      - name: SonarQube Cloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        shell: powershell
-        run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"PierryB_RpaBoettscher" /o:"rpasboettscher" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.verbose=true
-
-      - name: Debug directory after begin
-        run: dir
-      
-      - name: Build FaturaPdfCatolica
-        shell: powershell
-        run: |
-          cd RPAs\FaturaPdfCatolica
-          dotnet build
-          cd ../..
-      
-      - name: Build HistoricoFipe
-        shell: powershell
-        run: |
-          cd RPAs\HistoricoFipe
-          dotnet build
-          cd ../..
-      
-      - name: SonarScanner end
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        shell: powershell
-        run: |
-          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
-      
-      - name: Verify .sonarqube folder
-        run: |
-          if (Test-Path -Path .\.sonarqube) {
-            Write-Host ".sonarqube folder exists"
-          } else {
-            Write-Host ".sonarqube folder does not exist"
-          }
