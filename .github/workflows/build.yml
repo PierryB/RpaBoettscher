@@ -53,7 +53,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           cd RPAs/FaturaPdfCatolica
-          dotnet-sonarscanner begin /k:"PierryB_RpaBoettscher" /o:"rpasboettscher" /d:sonar.branch.name="main" /d:sonar.projectBaseDir="D:\a\RpaBoettscher\RpaBoettscher\RPAs\FaturaPdfCatolica" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          dotnet-sonarscanner begin /k:"rpasboettscher_faturapdfcatolica" /o:"rpasboettscher" /d:sonar.branch.name="main" /d:sonar.projectBaseDir="D:\a\RpaBoettscher\RpaBoettscher\RPAs\FaturaPdfCatolica" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           dotnet build FaturaPdfCatolica.sln
           dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
 
