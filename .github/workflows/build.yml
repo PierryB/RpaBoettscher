@@ -38,10 +38,9 @@ jobs:
           restore-keys: ${{ runner.os }}-sonar-scanner
 
       - name: Install SonarQube Cloud scanner
-        if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
         run: |
           dotnet tool install --global dotnet-sonarscanner
-          echo "##[add-path]$HOME\.dotnet\tools"
+          echo "::add-path::C:\Users\runneradmin\.dotnet\tools" >> $GITHUB_ENV
 
       - name: Analyze FaturaPdfCatolica
         env:
