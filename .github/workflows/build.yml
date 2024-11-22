@@ -33,7 +33,7 @@ jobs:
         id: cache-sonar-scanner
         uses: actions/cache@v4
         with:
-          path: .\.sonar\scanner
+          path: .sonar/scanner
           key: ${{ runner.os }}-sonar-scanner
           restore-keys: ${{ runner.os }}-sonar-scanner
 
@@ -41,8 +41,8 @@ jobs:
         if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
         shell: powershell
         run: |
-          New-Item -Path .\.sonar\scanner -ItemType Directory
-          dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
+          mkdir -p .sonar/scanner
+          dotnet tool update dotnet-sonarscanner --tool-path .sonar/scanner
 
       - name: Analyze FaturaPdfCatolica
         env:
@@ -51,9 +51,9 @@ jobs:
         shell: powershell
         run: |
           cd RPAs/FaturaPdfCatolica
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"PierryB_FaturaPdfCatolica" /o:"rpasboettscher" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          .sonar/scanner/dotnet-sonarscanner begin /k:"PierryB_FaturaPdfCatolica" /o:"rpasboettscher" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           dotnet build FaturaPdfCatolica.sln
-          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+          .sonar/scanner/dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
 
       - name: Analyze HistoricoFipe
         env:
@@ -62,6 +62,6 @@ jobs:
         shell: powershell
         run: |
           cd RPAs/HistoricoFipe
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"PierryB_HistoricoFipe" /o:"rpasboettscher" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          .sonar/scanner/dotnet-sonarscanner begin /k:"PierryB_HistoricoFipe" /o:"rpasboettscher" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           dotnet build HistoricoFipe.sln
-          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+          .sonar/scanner/dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
