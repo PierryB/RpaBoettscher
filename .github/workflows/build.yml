@@ -43,7 +43,6 @@ jobs:
           restore-keys: ${{ runner.os }}-sonar-scanner
 
       - name: Install SonarQube Cloud scanner
-        if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
         run: |
           dotnet tool install --global dotnet-sonarscanner
           echo "C:\Users\runneradmin\.dotnet\tools" >> $GITHUB_ENV
