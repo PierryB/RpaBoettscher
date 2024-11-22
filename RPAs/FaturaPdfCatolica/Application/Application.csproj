@@ -2,6 +2,7 @@
 
   <PropertyGroup>
 	<ProjectGuid>{b90fd3f6-d758-4848-9b25-35425c6dbb42}</ProjectGuid>
+	<SonarQubeTestProject>false</SonarQubeTestProject>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
