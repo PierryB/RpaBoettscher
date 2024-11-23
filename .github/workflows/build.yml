@@ -7,6 +7,7 @@ on:
     paths:
         - 'RPAs/FaturaPdfCatolica/**'
         - 'RPAs/HistoricoFipe/**'
+  workflow_dispatch:
 
 jobs:
   sonarcloud:
