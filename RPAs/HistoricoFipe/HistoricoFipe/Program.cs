@@ -29,11 +29,6 @@ var browser = await puppeteer.LaunchAsync(new LaunchOptions()
     Args = ["--start-maximized"]
 });
 var page = await browser.NewPageAsync();
-await page.SetViewportAsync(new ViewPortOptions()
-{
-    Width = 1920,
-    Height = 1080,
-});
 
 try
 {
