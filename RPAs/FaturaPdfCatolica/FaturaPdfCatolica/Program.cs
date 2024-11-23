@@ -12,9 +12,9 @@ string pastaTemp = string.Empty;
     senhaCatolica = args[1];
     pastaTemp = args[2];
 #else
-    usuarioCatolica = "teste";
-    senhaCatolica = "teste";
-    pastaTemp = $@"C:\temp\PdfCatolica\{Guid.NewGuid()}";
+    usuarioCatolica = "";
+    senhaCatolica = "";
+    pastaTemp = $@"";
 #endif
 
 Directory.CreateDirectory(pastaTemp);
@@ -32,7 +32,9 @@ var browser = await puppeteer.LaunchAsync(new LaunchOptions()
     Headless = false,
     Args = ["--start-maximized"]
 });
+
 var page = await browser.NewPageAsync();
+
 await page.SetViewportAsync(new ViewPortOptions()
 {
     Width = 1920,
@@ -54,6 +56,6 @@ finally
 {
     await log.WriteLineAsync("------------------------------------------------------------");
     await log.WriteLineAsync(msgExecucao);
-    log.Dispose();
+    await log.DisposeAsync();
     await browser.CloseAsync();
 }
