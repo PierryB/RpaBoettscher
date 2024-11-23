@@ -31,8 +31,10 @@ jobs:
         with:
           dotnet-version: '8.0.x'
 
-      - name: Install SonarCloud Scanner
-        run: dotnet tool install --global dotnet-sonarscanner
+      - name: Install Tools
+        run: |
+          dotnet tool install --global dotnet-sonarscanner
+          dotnet tool install --global dotnet-reportgenerator-globaltool
 
       - name: Analyze FaturaPdfCatolica
         env:
@@ -40,10 +42,11 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           cd RPAs/FaturaPdfCatolica
-          dotnet-sonarscanner begin /k:"rpasboettscher_faturapdfcatolica" /o:"rpasboettscher" /d:sonar.branch.name="main" /d:sonar.projectBaseDir="D:\a\RpaBoettscher\RpaBoettscher\RPAs\FaturaPdfCatolica" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vstest.reportsPaths="**/*.trx" /d:sonar.cs.coverageReportPaths="**/TestResults/coverage.opencover.xml"
+          dotnet-sonarscanner begin /k:"rpasboettscher_faturapdfcatolica" /o:"rpasboettscher" /d:sonar.branch.name="main" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           dotnet restore FaturaPdfCatolica.sln
           dotnet build FaturaPdfCatolica.sln
-          dotnet test FaturaPdfCatolica.sln --logger "trx" --collect:"XPlat Code Coverage" /p:CoverletOutputFormat=opencover /p:CoverletOutput=TestResults/
+          dotnet test FaturaPdfCatolica.sln --logger "trx" --collect:"XPlat Code Coverage" /p:CoverletOutputFormat=opencover /p:CoverletOutput=TestResults/coverage.opencover.xml
+          reportgenerator -reports:TestResults/coverage.opencover.xml -targetdir:TestResults/CoverageReport -reporttypes:Cobertura
           dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
 
       - name: Analyze HistoricoFipe
@@ -52,8 +55,9 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           cd RPAs/HistoricoFipe
-          dotnet-sonarscanner begin /k:"rpasboettscher_historicofipe" /o:"rpasboettscher" /d:sonar.branch.name="main" /d:sonar.projectBaseDir="D:\a\RpaBoettscher\RpaBoettscher\RPAs\HistoricoFipe" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vstest.reportsPaths="**/*.trx" /d:sonar.cs.coverageReportPaths="**/TestResults/coverage.opencover.xml"
+          dotnet-sonarscanner begin /k:"rpasboettscher_historicofipe" /o:"rpasboettscher" /d:sonar.branch.name="main" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           dotnet restore HistoricoFipe.sln
           dotnet build HistoricoFipe.sln
-          dotnet test HistoricoFipe.sln --logger "trx" --collect:"XPlat Code Coverage" /p:CoverletOutputFormat=opencover /p:CoverletOutput=TestResults/
+          dotnet test HistoricoFipe.sln --logger "trx" --collect:"XPlat Code Coverage" /p:CoverletOutputFormat=opencover /p:CoverletOutput=TestResults/coverage.opencover.xml
+          reportgenerator -reports:TestResults/coverage.opencover.xml -targetdir:TestResults/CoverageReport -reporttypes:Cobertura
           dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
