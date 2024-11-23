@@ -9,16 +9,11 @@ string pastaTemp = string.Empty;
     mesReferencia = args[0];
     pastaTemp = args[1];
 #else
-    mesReferencia = "10/2024";
-    pastaTemp = $@"C:\temp\HistoricoFipe\{Guid.NewGuid()}";
+    mesReferencia = "";
+    pastaTemp = $@"";
 #endif
 
-if (Directory.Exists(pastaTemp))
-{
-    Directory.Delete(pastaTemp, true);
-}
 Directory.CreateDirectory(pastaTemp);
-
 StreamWriter log = new(pastaTemp + @"\log.txt");
 StreamWriter csv = new(pastaTemp + @"\TabelaFipe.csv");
 string url = "https://veiculos.fipe.org.br/";
