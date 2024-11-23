@@ -18,8 +18,8 @@ public class CatolicaServiceTests
         _mockBrowser = new Mock<IBrowser>();
         _logStream = new MemoryStream();
         _logWriter = new StreamWriter(_logStream);
-        _usuarioCatolica = "";
-        _senhaCatolica = "";
+        _usuarioCatolica = "Teste";
+        _senhaCatolica = "123";
         _diretorioTemp = $@"C:\temp\PdfCatolicaTeste\{Guid.NewGuid()}";
     }
 
@@ -27,7 +27,7 @@ public class CatolicaServiceTests
     public async Task SiteCatolica_ShouldThrowException_WhenUserIsEmpty()
     {
         var service = new CatolicaService(_logWriter, string.Empty, _senhaCatolica, _mockBrowser.Object, _diretorioTemp);
-        var exception = await Assert.ThrowsAsync<Exception>(() => service.SiteCatolica(_mockPage.Object));
+        var exception = await Assert.ThrowsAsync<SiteNavigationException>(() => service.SiteCatolica(_mockPage.Object));
         Assert.Equal("O parâmetro 'usuarioCatolica' está vazio", exception.Message);
     }
 
@@ -35,8 +35,7 @@ public class CatolicaServiceTests
     public async Task SiteCatolica_ShouldThrowException_WhenPasswordIsEmpty()
     {
         var service = new CatolicaService(_logWriter, _usuarioCatolica, string.Empty, _mockBrowser.Object, _diretorioTemp);
-
-        var exception = await Assert.ThrowsAsync<Exception>(() => service.SiteCatolica(_mockPage.Object));
+        var exception = await Assert.ThrowsAsync<SiteNavigationException>(() => service.SiteCatolica(_mockPage.Object));
         Assert.Equal("O parâmetro 'senhaCatolica' está vazio", exception.Message);
     }
 }
