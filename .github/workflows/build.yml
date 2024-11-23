@@ -56,11 +56,11 @@ jobs:
           $branchName = "${{ github.head_ref }}"
           if ([string]::IsNullOrEmpty($branchName)) { $branchName = "main" }
       
-          $sonarParams = "/k:rpasboettscher_faturapdfcatolica /o:rpasboettscher /d:sonar.branch.name=$branchName /d:sonar.token=${{ secrets.SONAR_TOKEN }} /d:sonar.host.url=https://sonarcloud.io"
-      
           $pullRequestKey = "${{ github.event.pull_request.number }}"
           $pullRequestBranch = "${{ github.head_ref }}"
           $pullRequestBase = "${{ github.base_ref }}"
+      
+          $sonarParams = "/k:rpasboettscher_faturapdfcatolica /o:rpasboettscher /d:sonar.branch.name=$branchName /d:sonar.token=${{ secrets.SONAR_TOKEN }} /d:sonar.host.url=https://sonarcloud.io"
       
           if (![string]::IsNullOrEmpty($pullRequestKey) -and `
               ![string]::IsNullOrEmpty($pullRequestBranch) -and `
