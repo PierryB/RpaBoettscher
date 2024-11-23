@@ -4,8 +4,9 @@ on:
   push:
     branches:
       - main
-  pull_request:
-    types: [opened, synchronize, reopened]
+    paths:
+        - 'RPAs/FaturaPdfCatolica/**'
+        - 'RPAs/HistoricoFipe/**'
 
 jobs:
   sonarcloud:
