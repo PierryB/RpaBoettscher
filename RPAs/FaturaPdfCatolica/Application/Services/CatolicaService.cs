@@ -15,16 +15,10 @@ public class CatolicaService(StreamWriter logFile, string usuarioCatolica, strin
 
     public async Task SiteCatolica(IPage page)
     {
-        if (String.IsNullOrEmpty(UsuarioCatolica))
-        {
-            throw new Exception("O parâmetro 'usuarioCatolica' está vazio");
-        }
-        else if (String.IsNullOrEmpty(SenhaCatolica))
-        {
-            throw new Exception("O parâmetro 'senhaCatolica' está vazio");
-        }
+        if (String.IsNullOrEmpty(UsuarioCatolica)) throw new SiteNavigationException("O parâmetro 'usuarioCatolica' está vazio");
+        else if (String.IsNullOrEmpty(SenhaCatolica)) throw new SiteNavigationException("O parâmetro 'senhaCatolica' está vazio");
+        
         StreamWriter log = LogFile;
-        var browser = Browser;
         int countAbreNav = 0;
         bool isAbriuSite = false;
         while (countAbreNav < 5)
@@ -52,10 +46,8 @@ public class CatolicaService(StreamWriter logFile, string usuarioCatolica, strin
                 continue;
             }
         }
-        if (!isAbriuSite)
-        {
-            throw new Exception("Erro ao abrir o site da Católica SC.");
-        }
+        if (!isAbriuSite) throw new SiteNavigationException("Erro ao abrir o site da Católica SC.");
+        
         await log.WriteLineAsync("Abriu o site da Católica SC com sucesso.");
         await page.DeleteCookieAsync();
         await page.SetCacheEnabledAsync(false);
@@ -74,10 +66,7 @@ public class CatolicaService(StreamWriter logFile, string usuarioCatolica, strin
         }
         catch{}
 
-        if (countErroLogin > 0)
-        {
-            throw new Exception("Usuário ou Senha inválidos!");
-        }
+        if (countErroLogin > 0) throw new SiteNavigationException("Usuário ou Senha inválidos!");
 
         Thread.Sleep(15000);
         try
@@ -109,7 +98,7 @@ public class CatolicaService(StreamWriter logFile, string usuarioCatolica, strin
         await page.ClickAsync("body > div.modal.fade.ng-isolate-scope.in > div > div > div.modal-body.page-content.ng-scope > div.row.modal-pgto-boletos.ng-scope > div > div:nth-child(2) > button");
         Thread.Sleep(30000);
 
-        var newPageTask = browser.WaitForTargetAsync(t => t.Type == TargetType.Page);
+        var newPageTask = Browser.WaitForTargetAsync(t => t.Type == TargetType.Page);
         await page.ClickAsync("body > div.modal.fade.ng-isolate-scope.in > div > div > div.modal-footer.ng-scope > button:nth-child(2)");
         Thread.Sleep(10000);
         var newTarget = await newPageTask;

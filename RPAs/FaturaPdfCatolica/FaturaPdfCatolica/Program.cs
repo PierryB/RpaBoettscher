@@ -18,7 +18,6 @@ string pastaTemp = string.Empty;
 #endif
 
 Directory.CreateDirectory(pastaTemp);
-
 string msgExecucao = "INÍCIO";
 StreamWriter log = new(pastaTemp + @"\log.txt");
 StealthPlugin stealth = new();

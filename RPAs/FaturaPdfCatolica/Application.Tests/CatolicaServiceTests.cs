@@ -1,8 +1,5 @@
 using Moq;
 using PuppeteerSharp;
-using System.IO;
-using System.Threading.Tasks;
-using Xunit;
 
 namespace Application.Services.Tests;
 public class CatolicaServiceTests
