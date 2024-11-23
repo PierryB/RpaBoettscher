@@ -60,20 +60,14 @@ jobs:
           $pullRequestBranch = "${{ github.head_ref }}"
           $pullRequestBase = "${{ github.base_ref }}"
       
-          $sonarParams = @"
-            /k:"rpasboettscher_faturapdfcatolica"
-            /o:"rpasboettscher"
-            /d:sonar.branch.name="$branchName"
-            /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
-            /d:sonar.host.url="https://sonarcloud.io"
-          "@
+          $sonarParams = "/k:\"rpasboettscher_faturapdfcatolica\" /o:\"rpasboettscher\" /d:sonar.branch.name=\"$branchName\" /d:sonar.token=\"${{ secrets.SONAR_TOKEN }}\" /d:sonar.host.url=\"https://sonarcloud.io\""
       
           if (![string]::IsNullOrEmpty($pullRequestKey) -and `
               ![string]::IsNullOrEmpty($pullRequestBranch) -and `
               ![string]::IsNullOrEmpty($pullRequestBase)) {
-              $sonarParams += " /d:sonar.pullrequest.key=$pullRequestKey"
-              $sonarParams += " /d:sonar.pullrequest.branch=$pullRequestBranch"
-              $sonarParams += " /d:sonar.pullrequest.base=$pullRequestBase"
+              $sonarParams += " /d:sonar.pullrequest.key=\"$pullRequestKey\""
+              $sonarParams += " /d:sonar.pullrequest.branch=\"$pullRequestBranch\""
+              $sonarParams += " /d:sonar.pullrequest.base=\"$pullRequestBase\""
           }
       
           dotnet-sonarscanner begin $sonarParams
