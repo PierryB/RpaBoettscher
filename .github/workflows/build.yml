@@ -17,6 +17,9 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
+      - name: Convert shallow clone to full clone
+        run: git fetch --unshallow
+
       - name: Setup Java
         uses: actions/setup-java@v3
         with:
@@ -26,7 +29,7 @@ jobs:
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: 6.x
+          dotnet-version: '8.0.x'
 
       - name: Install SonarCloud Scanner
         run: dotnet tool install --global dotnet-sonarscanner
@@ -38,6 +41,7 @@ jobs:
         run: |
           cd RPAs/FaturaPdfCatolica
           dotnet-sonarscanner begin /k:"rpasboettscher_faturapdfcatolica" /o:"rpasboettscher" /d:sonar.branch.name="main" /d:sonar.projectBaseDir="D:\a\RpaBoettscher\RpaBoettscher\RPAs\FaturaPdfCatolica" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vstest.reportsPaths="**/*.trx" /d:sonar.cs.coverageReportPaths="**/TestResults/coverage.opencover.xml"
+          dotnet restore FaturaPdfCatolica.sln
           dotnet build FaturaPdfCatolica.sln
           dotnet test FaturaPdfCatolica.sln --logger "trx" --collect:"XPlat Code Coverage" /p:CoverletOutputFormat=opencover /p:CoverletOutput=TestResults/
           dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
@@ -49,6 +53,7 @@ jobs:
         run: |
           cd RPAs/HistoricoFipe
           dotnet-sonarscanner begin /k:"rpasboettscher_historicofipe" /o:"rpasboettscher" /d:sonar.branch.name="main" /d:sonar.projectBaseDir="D:\a\RpaBoettscher\RpaBoettscher\RPAs\HistoricoFipe" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vstest.reportsPaths="**/*.trx" /d:sonar.cs.coverageReportPaths="**/TestResults/coverage.opencover.xml"
+          dotnet restore HistoricoFipe.sln
           dotnet build HistoricoFipe.sln
           dotnet test HistoricoFipe.sln --logger "trx" --collect:"XPlat Code Coverage" /p:CoverletOutputFormat=opencover /p:CoverletOutput=TestResults/
           dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
