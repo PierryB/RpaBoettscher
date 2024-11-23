@@ -36,8 +36,15 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           cd RPAs/FaturaPdfCatolica
-          dotnet-sonarscanner begin /k:"rpasboettscher_faturapdfcatolica" /o:"rpasboettscher" /d:sonar.branch.name="main" /d:sonar.projectBaseDir="D:\a\RpaBoettscher\RpaBoettscher\RPAs\FaturaPdfCatolica" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          dotnet-sonarscanner begin /k:"rpasboettscher_faturapdfcatolica" /o:"rpasboettscher" \
+            /d:sonar.branch.name="main" \
+            /d:sonar.projectBaseDir="D:\a\RpaBoettscher\RpaBoettscher\RPAs\FaturaPdfCatolica" \
+            /d:sonar.token="${{ secrets.SONAR_TOKEN }}" \
+            /d:sonar.host.url="https://sonarcloud.io" \
+            /d:sonar.cs.vstest.reportsPaths="**/*.trx" \
+            /d:sonar.cs.coverageReportPaths="**/coverage.opencover.xml"
           dotnet build FaturaPdfCatolica.sln
+          dotnet test FaturaPdfCatolica.sln --logger "trx" --collect:"XPlat Code Coverage"
           dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
 
       - name: Analyze HistoricoFipe
@@ -46,6 +53,13 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           cd RPAs/HistoricoFipe
-          dotnet-sonarscanner begin /k:"rpasboettscher_historicofipe" /o:"rpasboettscher" /d:sonar.branch.name="main" /d:sonar.projectBaseDir="D:\a\RpaBoettscher\RpaBoettscher\RPAs\HistoricoFipe" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          dotnet-sonarscanner begin /k:"rpasboettscher_historicofipe" /o:"rpasboettscher" \
+            /d:sonar.branch.name="main" \
+            /d:sonar.projectBaseDir="D:\a\RpaBoettscher\RpaBoettscher\RPAs\HistoricoFipe" \
+            /d:sonar.token="${{ secrets.SONAR_TOKEN }}" \
+            /d:sonar.host.url="https://sonarcloud.io" \
+            /d:sonar.cs.vstest.reportsPaths="**/*.trx" \
+            /d:sonar.cs.coverageReportPaths="**/coverage.opencover.xml"
           dotnet build HistoricoFipe.sln
+          dotnet test HistoricoFipe.sln --logger "trx" --collect:"XPlat Code Coverage"
           dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
