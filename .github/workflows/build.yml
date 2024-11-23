@@ -44,7 +44,7 @@ jobs:
             /d:sonar.cs.vstest.reportsPaths="**/*.trx" \
             /d:sonar.cs.coverageReportPaths="**/coverage.opencover.xml"
           dotnet build FaturaPdfCatolica.sln
-          dotnet test FaturaPdfCatolica.sln --logger "trx" --collect:"XPlat Code Coverage"
+          dotnet test FaturaPdfCatolica.sln --logger "trx" --collect:"XPlat Code Coverage" /p:CoverletOutputFormat=opencover /p:CoverletOutput=TestResults/
           dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
 
       - name: Analyze HistoricoFipe
@@ -61,5 +61,5 @@ jobs:
             /d:sonar.cs.vstest.reportsPaths="**/*.trx" \
             /d:sonar.cs.coverageReportPaths="**/coverage.opencover.xml"
           dotnet build HistoricoFipe.sln
-          dotnet test HistoricoFipe.sln --logger "trx" --collect:"XPlat Code Coverage"
+          dotnet test HistoricoFipe.sln --logger "trx" --collect:"XPlat Code Coverage" /p:CoverletOutputFormat=opencover /p:CoverletOutput=TestResults/
           dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
