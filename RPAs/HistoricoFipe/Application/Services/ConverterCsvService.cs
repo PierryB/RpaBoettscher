@@ -16,8 +16,8 @@ public class ConverterCsvService (string diretorioTemp)
 
         using StreamReader reader = new(csvPath);
 
-        string linha;
-        while ((linha = reader.ReadLine()) != null)
+        string? linha;
+        while ((linha = reader.ReadLine()) is not null)
         {
             string[] colunas = linha.Split(';');
             linhas.Add(colunas);

@@ -17,7 +17,7 @@ public class HistoricoFipeService (StreamWriter logFile, StreamWriter csvFile, s
 
         if (!await OpenFipeSite(page))
         {
-            throw new Exception("Erro ao abrir o site da Fipe.");
+            throw new SiteNavigationException("Erro ao abrir o site da Fipe.");
         }
 
         await LogFile.WriteLineAsync("Abriu o site da Fipe com sucesso.");
@@ -36,11 +36,11 @@ public class HistoricoFipeService (StreamWriter logFile, StreamWriter csvFile, s
     {
         if (string.IsNullOrEmpty(MesConferencia))
         {
-            throw new Exception("O parâmetro 'mesConferencia' está vazio.");
+            throw new SiteNavigationException("O parâmetro 'mesConferencia' está vazio.");
         }
         if (!DateTime.TryParseExact(MesConferencia, "MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime parsedDate))
         {
-            throw new Exception("O parâmetro 'mesConferencia' não está em um formato válido. Use 'MM/yyyy'.");
+            throw new SiteNavigationException("O parâmetro 'mesConferencia' não está em um formato válido. Use 'MM/yyyy'.");
         }
 
         MesConferencia = parsedDate.ToString("MMMM/yyyy", new CultureInfo("pt-BR"));
@@ -92,7 +92,7 @@ public class HistoricoFipeService (StreamWriter logFile, StreamWriter csvFile, s
         }
         catch
         {
-            throw new Exception($"Não foi possível selecionar o mês de {MesConferencia} para conferência.");
+            throw new SiteNavigationException($"Não foi possível selecionar o mês de {MesConferencia} para conferência.");
         }
     }
 
@@ -211,7 +211,7 @@ public class HistoricoFipeService (StreamWriter logFile, StreamWriter csvFile, s
         }
         catch
         {
-            throw new Exception("Erro ao tentar pesquisar o veículo.");
+            throw new SiteNavigationException("Erro ao tentar pesquisar o veículo.");
         }
     }
 
