@@ -1,4 +1,4 @@
-name: SonarQube Cloud
+name: SonarCloud Analysis
 
 on:
   push:
@@ -8,101 +8,69 @@ on:
     types: [opened, synchronize, reopened]
 
 jobs:
-  build:
-    name: Build and analyze
+  sonarcloud:
     runs-on: windows-latest
+
     steps:
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup Java
+        uses: actions/setup-java@v3
         with:
           java-version: 17
-          distribution: 'zulu'
+          distribution: zulu
 
-      - uses: actions/checkout@v4
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v3
         with:
-          fetch-depth: 0
+          dotnet-version: 6.x
 
-      - name: Ensure cache directories exist
-        run: |
-          mkdir -p ~\sonar\cache
-          mkdir -p .sonar/scanner
-
-      - name: Cache SonarQube Cloud packages
-        uses: actions/cache@v4
-        with:
-          path: ~\sonar\cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: ${{ runner.os }}-sonar
-
-      - name: Cache SonarQube Cloud scanner
-        id: cache-sonar-scanner
-        uses: actions/cache@v4
-        with:
-          path: .sonar/scanner
-          key: ${{ runner.os }}-sonar-scanner
-          restore-keys: ${{ runner.os }}-sonar-scanner
-
-      - name: Install SonarQube Cloud scanner
-        run: |
-          dotnet tool install --global dotnet-sonarscanner
-          echo "C:\Users\runneradmin\.dotnet\tools" >> $GITHUB_ENV
+      - name: Install SonarCloud Scanner
+        run: dotnet tool install --global dotnet-sonarscanner
 
       - name: Analyze FaturaPdfCatolica
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          cd RPAs/FaturaPdfCatolica
-          $branchName = "${{ github.head_ref }}"
-          if ([string]::IsNullOrEmpty($branchName)) { $branchName = "main" }
-      
-          $pullRequestKey = "${{ github.event.pull_request.number }}"
-          $pullRequestBranch = "${{ github.head_ref }}"
-          $pullRequestBase = "${{ github.base_ref }}"
-      
-          $sonarParams = '/k:"rpasboettscher_faturapdfcatolica" /o:"rpasboettscher" /d:sonar.branch.name="' + $branchName + '" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"'
-      
+          $branchName = "${{ github.head_ref || 'main' }}"
+          $pullRequestKey = "${{ github.event.pull_request.number || '' }}"
+          $pullRequestBranch = "${{ github.head_ref || '' }}"
+          $pullRequestBase = "${{ github.base_ref || '' }}"
+
+          $sonarParams = "/k:\"rpasboettscher_faturapdfcatolica\" /o:\"rpasboettscher\" /d:sonar.branch.name=\"$branchName\" /d:sonar.token=\"$env:SONAR_TOKEN\" /d:sonar.host.url=\"https://sonarcloud.io\""
+
           if (![string]::IsNullOrEmpty($pullRequestKey) -and `
               ![string]::IsNullOrEmpty($pullRequestBranch) -and `
               ![string]::IsNullOrEmpty($pullRequestBase)) {
-              $sonarParams += ' /d:sonar.pullrequest.key="' + $pullRequestKey + '"'
-              $sonarParams += ' /d:sonar.pullrequest.branch="' + $pullRequestBranch + '"'
-              $sonarParams += ' /d:sonar.pullrequest.base="' + $pullRequestBase + '"'
+              $sonarParams += " /d:sonar.pullrequest.key=\"$pullRequestKey\""
+              $sonarParams += " /d:sonar.pullrequest.branch=\"$pullRequestBranch\""
+              $sonarParams += " /d:sonar.pullrequest.base=\"$pullRequestBase\""
           }
-      
+
           dotnet-sonarscanner begin $sonarParams
-          dotnet build FaturaPdfCatolica.sln
-          dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
-      
+          dotnet build RPAs/FaturaPdfCatolica/FaturaPdfCatolica.sln
+          dotnet-sonarscanner end /d:sonar.token="$env:SONAR_TOKEN"
+
       - name: Analyze HistoricoFipe
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          cd RPAs/HistoricoFipe
-          $branchName = "${{ github.head_ref }}"
-          if ([string]::IsNullOrEmpty($branchName)) { $branchName = "main" }
-      
-          $pullRequestKey = "${{ github.event.pull_request.number }}"
-          $pullRequestBranch = "${{ github.head_ref }}"
-          $pullRequestBase = "${{ github.base_ref }}"
-      
-          $sonarParams = @"
-            /k:"rpasboettscher_historicofipe"
-            /o:"rpasboettscher"
-            /d:sonar.branch.name="$branchName"
-            /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
-            /d:sonar.host.url="https://sonarcloud.io"
-          "@
-      
+          $branchName = "${{ github.head_ref || 'main' }}"
+          $pullRequestKey = "${{ github.event.pull_request.number || '' }}"
+          $pullRequestBranch = "${{ github.head_ref || '' }}"
+          $pullRequestBase = "${{ github.base_ref || '' }}"
+
+          $sonarParams = "/k:\"rpasboettscher_historicofipe\" /o:\"rpasboettscher\" /d:sonar.branch.name=\"$branchName\" /d:sonar.token=\"$env:SONAR_TOKEN\" /d:sonar.host.url=\"https://sonarcloud.io\""
+
           if (![string]::IsNullOrEmpty($pullRequestKey) -and `
               ![string]::IsNullOrEmpty($pullRequestBranch) -and `
               ![string]::IsNullOrEmpty($pullRequestBase)) {
-              $sonarParams += " /d:sonar.pullrequest.key=$pullRequestKey"
-              $sonarParams += " /d:sonar.pullrequest.branch=$pullRequestBranch"
-              $sonarParams += " /d:sonar.pullrequest.base=$pullRequestBase"
+              $sonarParams += " /d:sonar.pullrequest.key=\"$pullRequestKey\""
+              $sonarParams += " /d:sonar.pullrequest.branch=\"$pullRequestBranch\""
+              $sonarParams += " /d:sonar.pullrequest.base=\"$pullRequestBase\""
           }
-      
+
           dotnet-sonarscanner begin $sonarParams
-          dotnet build HistoricoFipe.sln
-          dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+          dotnet build RPAs/HistoricoFipe/HistoricoFipe.sln
+          dotnet-sonarscanner end /d:sonar.token="$env:SONAR_TOKEN"
