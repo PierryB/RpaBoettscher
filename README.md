@@ -6,7 +6,7 @@ O desenvolvimento tecnológico contínuo tem aumentado a demanda por automação
 
 ## Objetivo
 
-Desenvolver uma solução RPA customizada que permita aos usuários gerar relatórios atualizados da Tabela FIPE e realizar downloads de boletos em PDF diretamente do site de uma instituição de ensino superior.
+Desenvolver uma solução RPA customizada que permita aos usuários gerar relatórios atualizados da Tabela FIPE e realizar downloads de boletos em PDF diretamente do site da instituição de ensino superior Católica SC.
 
 ## Funcionalidades
 
@@ -29,10 +29,10 @@ O projeto utiliza uma máquina local para executar os RPA's. A comunicação ent
 ## Próximos Passos
 
 1) Desenvolvimento do RPA de Faturas PDF Católica ✅
-2) Desenvolvimento do RPA de Histórica da Tabela Fipe ❌
-3) Implementação da Interface Web e API ⏳
-4) Integração e teste com API e Ngrok
-5) Documentação completa e deploy final
+2) Desenvolvimento do RPA de Histórica da Tabela Fipe ✅
+3) Implementação da Interface Web e API ✅
+4) Integração e teste com API e AWS ✅
+5) Documentação completa e deploy final ✅
 
 ## Referências
 
