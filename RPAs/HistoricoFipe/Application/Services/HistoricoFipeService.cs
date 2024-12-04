@@ -56,8 +56,10 @@ public class HistoricoFipeService (StreamWriter logFile, StreamWriter csvFile, s
                 await page.GoToAsync(Url, 20000, [WaitUntilNavigation.Load, WaitUntilNavigation.DOMContentLoaded]);
                 if (await IsSiteLoaded(page))
                 {
+                    await page.EvaluateExpressionAsync("window.scrollTo(0, 1500);");
+                    Thread.Sleep(2000);
                     await page.EvaluateExpressionAsync("document.querySelector('#front > div.content > div.tab.vertical.tab-veiculos > ul > li:nth-child(1) > a > div.title').click();");
-                    Thread.Sleep(500);
+                    Thread.Sleep(2000);
                     return true;
                 }
             }
@@ -96,7 +98,7 @@ public class HistoricoFipeService (StreamWriter logFile, StreamWriter csvFile, s
         }
     }
 
-    private static async Task<string[]> FetchOptions(IPage page, string selector)
+    public async Task<string[]> FetchOptions(IPage page, string selector)
     {
         return await page.EvaluateFunctionAsync<string[]>($@"
             () => {{

@@ -28,7 +28,14 @@ var browser = await puppeteer.LaunchAsync(new LaunchOptions()
     Headless = false,
     Args = ["--start-maximized"]
 });
+
 var page = await browser.NewPageAsync();
+
+await page.SetViewportAsync(new ViewPortOptions()
+{
+    Width = 1024,
+    Height = 768,
+});
 
 try
 {
@@ -47,9 +54,9 @@ finally
 {
     await browser.CloseAsync();
     csv.Close();
+    await csv.DisposeAsync();
     new ConverterCsvService(pastaTemp).ExportarParaExcel(csvPath);
     await log.WriteLineAsync("------------------------------------------------------------");
     await log.WriteLineAsync(msgExecucao);
     await log.DisposeAsync();
-    await csv.DisposeAsync();
 }

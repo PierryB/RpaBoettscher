@@ -63,5 +63,6 @@ public class ConverterCsvService (string diretorioTemp)
 
         FileInfo arquivoExcel = new(caminhoExcel);
         pacote.SaveAs(arquivoExcel);
+        Console.WriteLine(arquivoExcel.ToString());
     }
 }
