@@ -32,20 +32,6 @@ public class HistoricoFipeServiceTests
     }
 
     [Fact]
-    public async Task SiteFipe_ShouldCallOpenFipeSite_WhenValidParams()
-    {
-        var mockResponse = new Mock<IResponse>();
-        var mockElement = new Mock<IElementHandle>();
-
-        _mockPage.Setup(p => p.GoToAsync(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<WaitUntilNavigation[]>()))
-                 .ReturnsAsync(mockResponse.Object);
-
-        _mockPage.SetupSequence(p => p.XPathAsync(It.IsAny<string>()))
-                 .ReturnsAsync([])
-                 .ReturnsAsync([mockElement.Object]);
-    }
-
-    [Fact]
     public async Task FetchOptions_ShouldReturnValidOptions()
     {
         _mockPage.Setup(p => p.EvaluateFunctionAsync<string[]>(It.IsAny<string>())).ReturnsAsync(value);
