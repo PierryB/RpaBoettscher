@@ -1,0 +1,56 @@
+name: Build and Upload RPAs
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'RPAs/FaturaPdfCatolica/**'
+      - 'RPAs/HistoricoFipe/**'
+
+jobs:
+  build-and-upload:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Determine changed projects
+        id: changed
+        uses: dorny/paths-filter@v2
+        with:
+          filters: |
+            FaturaPdfCatolica:
+              - 'RPAs/FaturaPdfCatolica/**'
+            HistoricoFipe:
+              - 'RPAs/HistoricoFipe/**'
+
+      - name: Build FaturaPdfCatolica
+        if: steps.changed.outputs.FaturaPdfCatolica == 'true'
+        run: dotnet build RPAs/FaturaPdfCatolica/FaturaPdfCatolica.sln --configuration Release
+
+      - name: Build HistoricoFipe
+        if: steps.changed.outputs.HistoricoFipe == 'true'
+        run: dotnet build RPAs/HistoricoFipe/HistoricoFipe.sln --configuration Release
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: sa-east-1
+
+      - name: Upload FaturaPdfCatolica to S3
+        if: steps.changed.outputs.FaturaPdfCatolica == 'true'
+        run: |
+          aws s3 cp RPAs/FaturaPdfCatolica/bin/Release/net8.0 s3://rpasbucket/RPAs/FaturaPdfCatolica/ --recursive
+
+      - name: Upload HistoricoFipe to S3
+        if: steps.changed.outputs.HistoricoFipe == 'true'
+        run: |
+          aws s3 cp RPAs/HistoricoFipe/bin/Release/net8.0 s3://rpasbucket/RPAs/HistoricoFipe/ --recursive
