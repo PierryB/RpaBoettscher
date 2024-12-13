@@ -34,23 +34,11 @@ jobs:
 
       - name: Build FaturaPdfCatolica
         if: steps.changed.outputs.FaturaPdfCatolica == 'true'
-        run: dotnet build RPAs/FaturaPdfCatolica/FaturaPdfCatolica.sln --configuration Release
+        run: dotnet build RPAs/FaturaPdfCatolica/FaturaPdfCatolica.sln --configuration Release --runtime win-x64
       
       - name: Build HistoricoFipe
         if: steps.changed.outputs.HistoricoFipe == 'true'
-        run: dotnet build RPAs/HistoricoFipe/HistoricoFipe.sln --configuration Release
-
-      - name: Generate build log for FaturaPdfCatolica
-        if: steps.changed.outputs.FaturaPdfCatolica == 'true'
-        run: |
-          echo "Generated files for FaturaPdfCatolica:" > fatura_files.log
-          find RPAs/FaturaPdfCatolica/FaturaPdfCatolica/bin/Release/net8.0 -type f >> fatura_files.log
-
-      - name: Generate build log for HistoricoFipe
-        if: steps.changed.outputs.HistoricoFipe == 'true'
-        run: |
-          echo "Generated files for HistoricoFipe:" > historico_files.log
-          find RPAs/HistoricoFipe/HistoricoFipe/bin/Release/net8.0 -type f >> historico_files.log
+        run: dotnet build RPAs/HistoricoFipe/HistoricoFipe.sln --configuration Release --runtime win-x64
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
