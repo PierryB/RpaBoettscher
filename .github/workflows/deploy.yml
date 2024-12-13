@@ -62,9 +62,9 @@ jobs:
       - name: Upload FaturaPdfCatolica to S3
         if: steps.changed.outputs.FaturaPdfCatolica == 'true'
         run: |
-          aws s3 cp RPAs/FaturaPdfCatolica/bin/Release/net8.0 s3://rpasbucket/RPAs/FaturaPdfCatolica/ --recursive
+          aws s3 cp RPAs/FaturaPdfCatolica/FaturaPdfCatolica/bin/Release/net8.0 s3://rpasbucket/RPAs/FaturaPdfCatolica/ --recursive
 
       - name: Upload HistoricoFipe to S3
         if: steps.changed.outputs.HistoricoFipe == 'true'
         run: |
-          aws s3 cp RPAs/HistoricoFipe/bin/Release/net8.0 s3://rpasbucket/RPAs/HistoricoFipe/ --recursive
+          aws s3 cp RPAs/HistoricoFipe/HistoricoFipe/bin/Release/net8.0 s3://rpasbucket/RPAs/HistoricoFipe/ --recursive
